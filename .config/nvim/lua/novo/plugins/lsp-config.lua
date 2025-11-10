@@ -1,0 +1,34 @@
+return {}
+--return {
+--  {
+--    "williamboman/mason.nvim",
+--    config = function()
+--      require("mason").setup()
+--    end
+--  },
+--  {
+--    "williamboman/mason-lspconfig.nvim",
+--    config = function()
+--      require("mason-lspconfig").setup({
+--        ensure_installed = { "lua_ls" }
+--      })
+--    end
+--  },
+--  {
+--    "neovim/nvim-lspconfig",
+--    config = function()
+--      local default_config = require("lspconfig.util").default_config
+--      vim.lsp.config["lua_ls"] = vim.tbl_deep_extend("force", default_config, {
+        -- settings = {
+        --   Lua = {
+        --     diagnostics = {
+        --       globals = { "vim" },
+        --     },
+        --   },
+        -- },
+--      })
+      -- inicia o LSP
+--      vim.lsp.start(vim.lsp.config["lua_ls"])
+--    end
+--  }
+--}

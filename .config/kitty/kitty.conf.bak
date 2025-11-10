@@ -1,0 +1,21 @@
+include ./theme.conf
+
+
+# Font size (in pts)
+font_size 22
+
+# Font family
+##font_family Fantasque Sans Mono
+
+# Foreground color
+##foreground #c0b18b
+
+# Background color
+##background #202020
+
+
+
+# BEGIN_KITTY_THEME
+# 1984 Dark
+include current-theme.conf
+# END_KITTY_THEME
