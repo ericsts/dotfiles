@@ -1,4 +1,4 @@
-require("novo.vim-options")
-require("novo.lazy")
-require("novo.lsp")
+require("ericsts.vim-options")
+require("ericsts.lazy")
+require("ericsts.lsp")
 

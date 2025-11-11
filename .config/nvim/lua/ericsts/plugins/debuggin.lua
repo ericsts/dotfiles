@@ -43,11 +43,13 @@ return {
 			},
 		}
 
-		vim.keymap.set("n", "<Leader>dt", dap.toggle.breakpoint, {})
+		vim.keymap.set("n", "<Leader>dt", dap.toggle_breakpoint, {})
 		vim.keymap.set("n", "<Leader>dc", dap.continue, {})
     vim.keymap.set("n", "<Leader>dn", dap.step_over, {})
     vim.keymap.set("n", "<Leader>di", dap.step_into, {})
     vim.keymap.set("n", "<Leader>do", dap.step_out, {})
     vim.keymap.set("n", "<Leader>dr", dap.repl.open, {})
+
+		vim.keymap.set("n", "<Leader>du", dapui.toggle, {})
 	end,
 }
