@@ -11,12 +11,23 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({ { import = "ericsts.plugins" }, { import = "ericsts.plugins.lsp" } }, {
-  checker = {
-    enabled = true,
-    notify = false,
+require("lazy").setup(
+  {
+    {
+      import = "ericsts.plugins"
+    },
   },
-  change_detection = {
-    notify = false,
-  },
-})
+  {
+    rocks = {
+      hererocks = false,
+      enabled = false,
+    },
+    checker = {
+      enabled = true,
+      notify = false,
+    },
+    change_detection = {
+      notify = false,
+    },
+  }
+)

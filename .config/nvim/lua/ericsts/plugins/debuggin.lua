@@ -1,3 +1,4 @@
+-- lua/ericsts/plugins/debuggin.lua
 return {
 	"mfussenegger/nvim-dap",
 	dependencies = {
