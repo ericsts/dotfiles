@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/mason.lua
+-- nvim/lua/ericsts/plugins/mason.lua
 return {}
 
 -- return {

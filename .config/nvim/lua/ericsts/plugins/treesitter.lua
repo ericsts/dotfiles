@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/treesitter.lua
+-- nvim/lua/ericsts/plugins/treesitter.lua
 return {
   "nvim-treesitter/nvim-treesitter",
   branch = 'master',
@@ -13,4 +13,3 @@ return {
     })
   end
 }
-

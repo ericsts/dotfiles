@@ -1,0 +1,121 @@
+# zsh/completions/alias.zsh
+_laravel() {
+    local -a commands
+
+    commands=(
+        'artisan:Executa comando artisan'
+        'tinker:Abre o Tinker'
+        'migrate:Executa migrations'
+        'fresh:Executa migrate:fresh (apaga tudo!)'
+        'seed:Executa seeders'
+        'test:Executa testes'
+        'composer:Executa comando composer'
+        'npm:Executa comando npm'
+        'shell:Entra no shell como laravel'
+        'root:Entra no shell como root'
+        'service:Entra no shell de um serviço'
+        'exec:Executa comando em um serviço'
+        'clear:Limpa todo cache'
+        'optimize:Otimiza a aplicação'
+        'logs:Mostra logs'
+        'laravel-logs:Mostra logs do Laravel'
+        'services:Lista todos os serviços'
+        'status:Status detalhado do projeto'
+        'restart:Reinicia serviço(s)'
+        'info:Informações do sistema'
+        'backup-db:Faz backup do banco de dados'
+        'help:Mostra ajuda'
+    )
+
+    # Comandos artisan comuns para autocompletar após "artisan"
+    local -a artisan_commands
+    artisan_commands=(
+        'make:model'
+        'make:controller'
+        'make:migration'
+        'make:seeder'
+        'make:factory'
+        'make:request'
+        'make:resource'
+        'make:policy'
+        'make:command'
+        'make:middleware'
+        'make:provider'
+        'make:rule'
+        'make:test'
+        'migrate'
+        'migrate:fresh'
+        'migrate:refresh'
+        'migrate:rollback'
+        'migrate:reset'
+        'migrate:status'
+        'db:seed'
+        'db:wipe'
+        'cache:clear'
+        'config:clear'
+        'config:cache'
+        'route:clear'
+        'route:cache'
+        'route:list'
+        'view:clear'
+        'view:cache'
+        'optimize'
+        'optimize:clear'
+        'queue:work'
+        'queue:listen'
+        'queue:restart'
+        'queue:failed'
+        'queue:retry'
+        'schedule:run'
+        'storage:link'
+        'key:generate'
+        'about'
+    )
+
+    # Serviços disponíveis (você pode customizar)
+    local -a services
+    services=(
+        'app'
+        'nginx'
+        'minio'
+        'db'
+    )
+
+    _arguments -C \
+        '1: :->command' \
+        '*::arg:->args'
+
+    case $state in
+        command)
+            _describe -t commands 'laravel.sh commands' commands
+            ;;
+        args)
+            case $line[1] in
+                artisan)
+                    _describe -t artisan_commands 'artisan commands' artisan_commands
+                    ;;
+                service|logs|restart|exec)
+                    _describe -t services 'docker services' services
+                    ;;
+                seed)
+                    # Autocompletar com seeders do projeto (se existirem)
+                    local -a seeders
+                    if [[ -d "database/seeders" ]]; then
+                        seeders=(${(f)"$(find database/seeders -name '*Seeder.php' -exec basename {} .php \;)"})
+                        _describe -t seeders 'database seeders' seeders
+                    fi
+                    ;;
+                test)
+                    # Autocompletar com testes do projeto (se existirem)
+                    local -a tests
+                    if [[ -d "tests" ]]; then
+                        tests=(${(f)"$(find tests -name '*Test.php' -o -name '*.php')"})
+                        _describe -t tests 'test files' tests
+                    fi
+                    ;;
+            esac
+            ;;
+    esac
+}
+
+_laravel "$@"

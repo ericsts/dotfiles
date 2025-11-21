@@ -1,3 +1,4 @@
+-- nvim/lua/ericsts/lsp.lua
 local keymap = vim.keymap -- for conciseness
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -52,8 +53,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- vim.lsp.inlay_hint.enable(true)
-
 local severity = vim.diagnostic.severity
 
 vim.diagnostic.config({
@@ -67,5 +66,5 @@ vim.diagnostic.config({
     },
   },
 })
-
- --   [vim.diagnostic.severity.INFO] = '»',
+-- [vim.diagnostic.severity.INFO] = '»',
+-- vim.lsp.inlay_hint.enable(true)

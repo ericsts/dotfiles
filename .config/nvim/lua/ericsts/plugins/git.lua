@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/git.lua
+-- nvim/lua/ericsts/plugins/git.lua
 return {
   "lewis6991/gitsigns.nvim",
   opts = {},
@@ -9,4 +9,3 @@ return {
     { "<leader>gd", ":Gitsigns diffthis<CR>", desc = "Diff This" },
   },
 }
-

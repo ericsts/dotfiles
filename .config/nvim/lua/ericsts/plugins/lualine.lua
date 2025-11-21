@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/lualine.lua
+-- nvim/lua/ericsts/plugins/lualine.lua
 return {
   "nvim-lualine/lualine.nvim",
   config = function()

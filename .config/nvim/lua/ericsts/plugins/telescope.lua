@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/telescope.lua
+-- nvim/lua/ericsts/plugins/telescope.lua
 return {
   {
     'nvim-telescope/telescope.nvim', tag = '0.1.8',
@@ -25,4 +25,3 @@ return {
     end
   }
 }
-

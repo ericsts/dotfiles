@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/laravel.lua
+-- nvim/lua/ericsts/plugins/laravel.lua
 return {
   {
     "tpope/vim-projectionist",

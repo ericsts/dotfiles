@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/tailwind.lua
+-- nvim/lua/ericsts/plugins/tailwind.lua
 return {
   {
     "neovim/nvim-lspconfig",

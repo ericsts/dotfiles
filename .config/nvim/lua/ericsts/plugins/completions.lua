@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/completions.lua
+-- nvim/lua/ericsts/plugins/completions.lua
 return {
   {
     "hrsh7th/cmp-nvim-lsp"
@@ -43,4 +43,3 @@ return {
     end,
   },
 }
-

@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/test.lua
+-- nvim/lua/ericsts/plugins/test.lua
 return {
   {
     "nvim-neotest/neotest",

@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/keymaps.lua
+-- nvim/lua/ericsts/plugins/keymaps.lua
 return {
   {
     "nvim-lua/plenary.nvim", -- dummy plugin só pra registrar atalhos
@@ -11,4 +11,3 @@ return {
     },
   },
 }
-

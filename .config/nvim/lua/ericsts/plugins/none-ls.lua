@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/nano-ls.lua
+-- nvim/lua/ericsts/plugins/nano-ls.lua
 return {
 	"nvimtools/none-ls.nvim",
 	config = function()

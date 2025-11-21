@@ -1,3 +1,4 @@
+# zsh/plugins.zsh
 plugins=(
   eza
   asdf
@@ -10,4 +11,3 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 source /home/eric/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-

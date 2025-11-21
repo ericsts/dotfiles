@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/lsp-config.lua
+-- nvim/lua/ericsts/plugins/lsp-config.lua
 return {
   -- Carrega o Mason e suas extensões
   {
@@ -15,7 +15,6 @@ return {
       })
     end,
   },
-
 
   {
     "williamboman/mason-lspconfig.nvim",

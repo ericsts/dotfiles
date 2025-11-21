@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/php.lua
+-- nvim/lua/ericsts/plugins/php.lua
 return {
   -- Integração com Pint
   {
@@ -16,7 +16,6 @@ return {
   },
 }
 
-
 --return {
 --  {
 --    "neovim/nvim-lspconfig",
@@ -27,24 +26,24 @@ return {
 --    },
 --  },
 
-  -- Laravel helper navigation
+-- Laravel helper navigation
 --  {
 --    "noahfrederick/vim-laravel",
 --    ft = "php",
 --  },
 
-  -- Pint format
+-- Pint format
 --  {
 --    keys = {
 --      {
 --        "<leader>pf",
 --        ":!pint %<CR>",
- --       desc = "Format file with Pint",
- --     },
- --   },
- -- },
+--       desc = "Format file with Pint",
+--     },
+--   },
+-- },
 
-  -- Pint staged for Git
+-- Pint staged for Git
 --  {
 --    keys = {
 --      {
@@ -55,7 +54,7 @@ return {
 --    },
 --  },
 
-  -- Artisan helpers
+-- Artisan helpers
 --  {
 --    ft = "php",
 --    keys = {

@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/alpha.lua
+-- nvim/lua/ericsts/plugins/alpha.lua
 return {
   "goolord/alpha-nvim",
   dependencies = {
@@ -30,4 +30,3 @@ return {
     alpha.setup(dashboard.opts)
   end,
 }
-

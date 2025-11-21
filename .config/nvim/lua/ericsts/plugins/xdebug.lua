@@ -1,4 +1,4 @@
--- lua/ericsts/plugins/xdebug.lua
+-- nvim/lua/ericsts/plugins/xdebug.lua
 return {
   {
     "mfussenegger/nvim-dap",

@@ -1,3 +1,4 @@
+# zsh/git.zsh
 alias gst="git status"
 alias gl="git pull"
 alias gp="git push"
@@ -13,4 +14,3 @@ alias gc="git commit"
 gfe() {
   git ls-files -m | fzf --preview 'git diff --color=always {}' | xargs -r $EDITOR
 }
-

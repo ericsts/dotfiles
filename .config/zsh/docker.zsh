@@ -1,3 +1,4 @@
+# zsh/docker.zsh
 alias d="docker"
 alias dc="docker compose"
 alias dip="docker image prune -f"
@@ -11,4 +12,3 @@ dex() {
 dcl() {
   docker compose logs -f "$1"
 }
-

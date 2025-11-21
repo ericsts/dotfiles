@@ -8,7 +8,7 @@ zstyle ':omz:plugins:eza' 'dirs-first' yes
 zstyle ':omz:plugins:eza' 'git-status' yes
 zstyle ':omz:plugins:eza' 'header' yes
 zstyle ':omz:plugins:eza' 'icons' yes
-zstyle ':omz:plugins:eza' 'color-scale' all 
+zstyle ':omz:plugins:eza' 'color-scale' all
 zstyle ':omz:plugins:eza' 'color-scale-mode' gradient
 zstyle ':omz:plugins:eza' 'size-prefix' binary
 zstyle ':omz:plugins:eza' 'hyperlink' yes
@@ -21,7 +21,12 @@ done
 # Starship
 eval "$(starship init zsh)"
 
+# faz o history funcionar diferente
 eval "$(atuin init zsh)"
+
+eval "$(zoxide init zsh)"
+
+source <(fzf --zsh)
 
 # Run startup tools
 fastfetch

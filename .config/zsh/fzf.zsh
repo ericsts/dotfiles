@@ -1,3 +1,4 @@
+# zsh/fzf.zsh
 # ==== FZF colors ====
 fg="#CBE0F0"
 bg="#011628"
@@ -17,4 +18,3 @@ info:${blue},prompt:${cyan},pointer:${cyan},marker:${cyan},spinner:${cyan},heade
 "
 
 export FZF_DEFAULT_OPTS
-
