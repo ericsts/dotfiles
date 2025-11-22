@@ -1,23 +1,28 @@
 -- nvim/lua/ericsts/plugins/neo-tree.lua
+-- NEO-TREE: Explorador de arquivos lateral (como NERDTree)
+-- Mostra estrutura de pastas, git status, etc.
+
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
-    "nvim-tree/nvim-web-devicons",
+    "nvim-tree/nvim-web-devicons", -- Ícones bonitos
   },
-  lazy = false,
+  lazy = false, -- Sempre disponível
   config = function()
     require("neo-tree").setup({
       filesystem = {
-        follow_current_file = true,
+        follow_current_file = true, -- Foca no arquivo atual
         filtered_items = {
-          visible = true,
-          hide_dotfiles = false,
-          hide_gitignored = false,
+          visible = true,       -- Mostra arquivos filtrados
+          hide_dotfiles = false, -- Não esconde arquivos com .
+          hide_gitignored = false, -- Mostra arquivos do .gitignore
         },
       },
+
+      -- Fecha Neo-tree automaticamente ao abrir arquivo
       event_handlers = {
         {
           event = "file_opened",
@@ -26,24 +31,27 @@ return {
           end,
         },
       },
+
+      -- === NAVEGAÇÃO TIPO VIM ===
       window = {
         mappings = {
-          ["<space>"] = "toggle_node",
-          ["h"] = "navigate_up",
-          ["l"] = "open",
-          ["<BS>"] = "close_node",
-          ["<CR>"] = "open",
+          ["<space>"] = "toggle_node",    -- Espaço: abre/fecha pasta
+          ["h"] = "navigate_up",          -- h: vai para pasta pai
+          ["l"] = "open",                 -- l: abre arquivo/pasta
+          ["<BS>"] = "close_node",        -- Backspace: fecha pasta
+          ["<CR>"] = "open",              -- Enter: abre arquivo
         },
       },
     })
 
-    vim.keymap.set("n", "<C-n>", ":Neotree toggle<CR>")
-    -- vim.keymap.set("n", "<C-n>", ":Neotree reveal<CR>")
-    -- vim.keymap.set('n', '<C-n>', ':Neotree filesystem reveal left<CR>', {})
-    vim.keymap.set("n", "<leader>e", ":Neotree filesystem reveal left<CR>")
-    vim.keymap.set("n", "<leader>h", ":Neotree toggle_hidden<CR>", {})
+    -- === ATALHOS GLOBAIS ===
+    -- Ctrl+N: toggle Neo-tree
+    vim.keymap.set("n", "<C-n>", ":Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
 
+    -- <leader>e: revela arquivo atual no Neo-tree
+    vim.keymap.set("n", "<leader>e", ":Neotree filesystem reveal left<CR>", { desc = "Reveal in Neo-tree" })
+
+    -- <leader>h: toggle arquivos ocultos
+    vim.keymap.set("n", "<leader>h", ":Neotree toggle_hidden<CR>", { desc = "Toggle hidden files" })
   end
-
 }
-

@@ -1,6 +1,10 @@
 -- nvim/lua/ericsts/plugins/lsp-config.lua
+-- Configuração completa de LSP (Language Server Protocol)
+-- LSP fornece recursos avançados: autocompletar, diagnósticos, refatoração, etc.
+
 return {
-  -- Carrega o Mason e suas extensões
+  -- === MASON: Gerenciador de LSP, DAP, linters, formatters ===
+  -- Mason instala e gerencia servidores de linguagem automaticamente
   {
     "williamboman/mason.nvim",
     config = function()
@@ -16,71 +20,82 @@ return {
     end,
   },
 
+  -- === MASON-LSPCONFIG: Integração entre Mason e nvim-lspconfig ===
+  -- Faz a "ponte" entre o Mason (instalador) e o lspconfig (configurador)
   {
     "williamboman/mason-lspconfig.nvim",
-    -- Este plugin é a "cola" entre o Mason e o nvim-lspconfig
-    -- Certifique-se de que ele seja carregado DEPOIS do nvim-lspconfig
-    -- dependencies = { "neovim/nvim-lspconfig" },
     opts = {
-      -- Lista de servidores LSP que o Mason deve instalar automaticamente
+      -- Servidores LSP que serão instalados automaticamente
       ensure_installed = {
-        "lua_ls",
-        "intelephense",
-        "tailwindcss",
+        "lua_ls",       -- LSP para Lua
+        "intelephense", -- LSP para PHP
+        "tailwindcss",  -- LSP para Tailwind CSS
       },
     },
   },
 
-  -- O GERENCIADOR DE LSP PRINCIPAL
+  -- === NVIM-LSPCONFIG: Configurador de LSP ===
+  -- Plugin principal que conecta o Neovim aos servidores LSP
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPre", "BufNewFile" }, -- Carrega ao abrir arquivos
     dependencies = {
-      -- Dependências opcionais para UI e funcionalidades extras
       "williamboman/mason-lspconfig.nvim",
-      { "antosha417/nvim-lsp-file-operations", config = true },
-      { "folke/lazydev.nvim", opts = {} }, -- Para autocompletar em configs .lua
+      { "antosha417/nvim-lsp-file-operations", config = true }, -- Operações de arquivo via LSP
+      { "folke/lazydev.nvim", opts = {} }, -- Autocompletar para configs Lua do Neovim
     },
     config = function()
-      -- Esta é a função que estava no seu lsp.lua original.
-      -- Ela será chamada para CADA servidor LSP que o mason-lspconfig iniciar.
+      -- Função executada quando um LSP se conecta a um buffer
       local function on_attach(client, bufnr)
         local keymap = vim.keymap
         local opts = { buffer = bufnr, silent = true }
 
+        -- === ATALHOS LSP ===
         opts.desc = "Show LSP references"
         keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts)
+
         opts.desc = "Go to declaration"
         keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+
         opts.desc = "Show LSP definition"
         keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+
         opts.desc = "Show LSP implementations"
         keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
+
         opts.desc = "Show LSP type definitions"
         keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
+
         opts.desc = "See available code actions"
         keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+
         opts.desc = "Smart rename"
         keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+
         opts.desc = "Show buffer diagnostics"
         keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
+
         opts.desc = "Show line diagnostics"
         keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
+
         opts.desc = "Go to previous diagnostic"
         keymap.set("n", "[d", function()
           vim.diagnostic.jump({ count = -1, float = true })
         end, opts)
+
         opts.desc = "Go to next diagnostic"
         keymap.set("n", "]d", function()
           vim.diagnostic.jump({ count = 1, float = true })
         end, opts)
+
         opts.desc = "Show documentation for what is under cursor"
         keymap.set("n", "K", vim.lsp.buf.hover, opts)
+
         opts.desc = "Restart LSP"
         keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
       end
 
-      -- Configuração dos ícones de diagnóstico
+      -- === ÍCONES DE DIAGNÓSTICO ===
       local severity = vim.diagnostic.severity
       vim.diagnostic.config({
         signs = {
@@ -88,24 +103,21 @@ return {
             [severity.ERROR] = "✘ ",
             [severity.WARN] = "▲ ",
             [severity.HINT] = "⚑ ",
-            [severity.INFO] = " ",
+            [severity.INFO] = " ",
           },
         },
       })
 
-      -- Pega as "capabilities" (capacidades) do plugin de autocompletar (cmp)
-      -- Isso diz ao LSP que nosso cliente de autocompletar sabe lidar com snippets, etc.
+      -- Obtém as "capabilities" do autocompletar (cmp)
+      -- Isso informa ao LSP o que nosso editor suporta (snippets, etc)
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      -- Pega o gerenciador do mason-lspconfig
       local lspconfig = require("lspconfig")
-
       local mason_lspconfig = require("mason-lspconfig")
 
-      -- Configura o mason-lspconfig para usar as 'capabilities' e a função 'on_attach'
-      -- para CADA servidor que ele configurar.
+      -- === CONFIGURAÇÃO AUTOMÁTICA DE TODOS OS SERVIDORES ===
       mason_lspconfig.setup_handlers({
-        -- Este é o handler padrão que vai rodar para todos os servidores
+        -- Handler padrão: aplica para TODOS os servidores
         function(server_name)
           lspconfig[server_name].setup({
             capabilities = capabilities,
@@ -113,26 +125,30 @@ return {
           })
         end,
 
-        -- --- Exceções ---
-        -- Aqui você pode sobrescrever configurações para servidores específicos
+        -- === CONFIGURAÇÕES ESPECÍFICAS POR SERVIDOR ===
+
+        -- Lua LS: servidor para Lua
         ["lua_ls"] = function()
           lspconfig.lua_ls.setup({
             capabilities = capabilities,
             on_attach = on_attach,
             settings = {
               Lua = {
-                diagnostics = { globals = { "vim" } },
+                diagnostics = {
+                  globals = { "vim" } -- Reconhece 'vim' como global
+                },
               },
             },
           })
         end,
 
+        -- Intelephense: servidor para PHP
         ["intelephense"] = function()
           lspconfig.intelephense.setup({
             capabilities = capabilities,
             on_attach = on_attach,
-            -- As outras configs manuais que você tinha (cmd, filetypes, root_dir)
-            -- NÃO SÃO MAIS NECESSÁRIAS. O lspconfig já sabe como fazer isso.
+            -- lspconfig já sabe configurar automaticamente
+            -- cmd, filetypes, root_dir, etc.
           })
         end,
       })

@@ -1,4 +1,6 @@
 -- nvim/lua/ericsts/plugins/alpha.lua
+-- ALPHA: Tela inicial bonita com logo ASCII
+
 return {
   "goolord/alpha-nvim",
   dependencies = {

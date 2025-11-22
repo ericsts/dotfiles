@@ -1,56 +1,67 @@
--- nvim/lua/ericsts/plugins/debuggin.lua
+-- nvim/lua/ericsts/plugins/debugging.lua
+-- Sistema de DEBUG (DAP - Debug Adapter Protocol)
+-- Permite colocar breakpoints, inspecionar variáveis, etc.
+
+-- NOTA: Você tem dois arquivos de debug (debugging.lua e xdebug.lua)
+-- RECOMENDAÇÃO: Use apenas este arquivo e delete xdebug.lua
+
 return {
-	"mfussenegger/nvim-dap",
-	dependencies = {
-		"rcarriga/nvim-dap-ui",
-		"leoluz/nvim-dap-go",
-		"jay-babu/mason-nvim-dap.nvim",
-    "nvim-neotest/nvim-nio",
-	},
-	config = function()
-		local dap, dapui = require("dap"), require("dapui")
+  -- === NVIM-DAP: Debug Adapter Protocol ===
+  -- Protocolo que permite debugar diversas linguagens
+  "mfussenegger/nvim-dap",
+  dependencies = {
+    "rcarriga/nvim-dap-ui",         -- Interface visual para debug
+    "leoluz/nvim-dap-go",           -- Suporte para Go
+    "jay-babu/mason-nvim-dap.nvim", -- Integração com Mason
+    "nvim-neotest/nvim-nio",        -- Biblioteca async necessária
+  },
+  config = function()
+    local dap = require("dap")
+    local dapui = require("dapui")
 
-		require("dapui").setup()
-		require("dap-go").setup()
+    -- Configura a UI do debug
+    dapui.setup()
 
-		require("mason-nvim-dap").setup({
-			ensure_installed = { "php" },
-			automatic_setup = true,
-		})
+    -- Configura Go debug
+    require("dap-go").setup()
 
-		-- require("mason-nvim-dap").setup_handlers({})
-		require("mason-nvim-dap").setup()
+    -- === MASON-DAP: Instalador de adapters ===
+    require("mason-nvim-dap").setup({
+      ensure_installed = { "php" }, -- Instala adapter PHP automaticamente
+      automatic_setup = true,
+    })
 
-		dap.listeners.before.attach.dapui_config = function()
-			dapui.open()
-		end
-		dap.listeners.before.launch.dapui_config = function()
-			dapui.open()
-		end
-		dap.listeners.before.event_terminated.dapui_config = function()
-			dapui.close()
-		end
-		dap.listeners.before.event_exited.dapui_config = function()
-			dapui.close()
-		end
+    -- === EVENTOS: Abre/fecha UI automaticamente ===
+    dap.listeners.before.attach.dapui_config = function()
+      dapui.open()
+    end
+    dap.listeners.before.launch.dapui_config = function()
+      dapui.open()
+    end
+    dap.listeners.before.event_terminated.dapui_config = function()
+      dapui.close()
+    end
+    dap.listeners.before.event_exited.dapui_config = function()
+      dapui.close()
+    end
 
-		-- PHP Xdebug config
-		dap.configurations.php = {
-			{
-				type = "php",
-				request = "launch",
-				name = "Xdebug",
-				port = 9003,
-			},
-		}
+    -- === CONFIGURAÇÃO PHP XDEBUG ===
+    dap.configurations.php = {
+      {
+        type = "php",
+        request = "launch",
+        name = "Xdebug",
+        port = 9003, -- Porta padrão do Xdebug 3
+      },
+    }
 
-		vim.keymap.set("n", "<Leader>dt", dap.toggle_breakpoint, {})
-		vim.keymap.set("n", "<Leader>dc", dap.continue, {})
-    vim.keymap.set("n", "<Leader>dn", dap.step_over, {})
-    vim.keymap.set("n", "<Leader>di", dap.step_into, {})
-    vim.keymap.set("n", "<Leader>do", dap.step_out, {})
-    vim.keymap.set("n", "<Leader>dr", dap.repl.open, {})
-
-		vim.keymap.set("n", "<Leader>du", dapui.toggle, {})
-	end,
+    -- === ATALHOS DE DEBUG ===
+    vim.keymap.set("n", "<Leader>dt", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
+    vim.keymap.set("n", "<Leader>dc", dap.continue, { desc = "Continue/Start debug" })
+    vim.keymap.set("n", "<Leader>dn", dap.step_over, { desc = "Step over" })
+    vim.keymap.set("n", "<Leader>di", dap.step_into, { desc = "Step into" })
+    vim.keymap.set("n", "<Leader>do", dap.step_out, { desc = "Step out" })
+    vim.keymap.set("n", "<Leader>dr", dap.repl.open, { desc = "Open REPL" })
+    vim.keymap.set("n", "<Leader>du", dapui.toggle, { desc = "Toggle debug UI" })
+  end,
 }
