@@ -12,9 +12,13 @@ show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head
 FZF_DEFAULT_OPTS="
   --color=fg:${fg},bg:${bg},hl:${purple},fg+:${fg},bg+:${bg_highlight},hl+:${purple},\
 info:${blue},prompt:${cyan},pointer:${cyan},marker:${cyan},spinner:${cyan},header:${cyan} \
-  --layout=reverse-list \
+  --layout=reverse \
+  --border \
+  --height=100% \
   --multi \
-  --preview '$show_file_or_dir_preview'
+  --preview '$show_file_or_dir_preview' \
+  --preview-window=right:70%
 "
 
 export FZF_DEFAULT_OPTS
+export FZF_CTRL_R_COMMAND=

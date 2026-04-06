@@ -21,28 +21,33 @@ return {
   },
 
   -- === MASON-LSPCONFIG: Integração entre Mason e nvim-lspconfig ===
-  -- Faz a "ponte" entre o Mason (instalador) e o lspconfig (configurador)
   {
     "williamboman/mason-lspconfig.nvim",
-    opts = {
-      -- Servidores LSP que serão instalados automaticamente
-      ensure_installed = {
-        "lua_ls",       -- LSP para Lua
-        "intelephense", -- LSP para PHP
-        "tailwindcss",  -- LSP para Tailwind CSS
-      },
+    dependencies = {
+      "williamboman/mason.nvim",
     },
+    config = function()
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "lua_ls",       -- LSP para Lua
+          "intelephense", -- LSP para PHP
+          "tailwindcss",  -- LSP para Tailwind CSS
+        },
+        automatic_installation = true,
+      })
+    end,
   },
 
   -- === NVIM-LSPCONFIG: Configurador de LSP ===
   -- Plugin principal que conecta o Neovim aos servidores LSP
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" }, -- Carrega ao abrir arquivos
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
+      "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      { "antosha417/nvim-lsp-file-operations", config = true }, -- Operações de arquivo via LSP
-      { "folke/lazydev.nvim", opts = {} }, -- Autocompletar para configs Lua do Neovim
+      { "antosha417/nvim-lsp-file-operations", config = true },
+      { "folke/lazydev.nvim", opts = {} },
     },
     config = function()
       -- Função executada quando um LSP se conecta a um buffer
@@ -109,49 +114,58 @@ return {
       })
 
       -- Obtém as "capabilities" do autocompletar (cmp)
-      -- Isso informa ao LSP o que nosso editor suporta (snippets, etc)
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local has_cmp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
+      local capabilities = vim.tbl_deep_extend(
+        "force",
+        {},
+        vim.lsp.protocol.make_client_capabilities(),
+        has_cmp and cmp_lsp.default_capabilities() or {}
+      )
 
-      local lspconfig = require("lspconfig")
-      local mason_lspconfig = require("mason-lspconfig")
-
-      -- === CONFIGURAÇÃO AUTOMÁTICA DE TODOS OS SERVIDORES ===
-      mason_lspconfig.setup_handlers({
-        -- Handler padrão: aplica para TODOS os servidores
-        function(server_name)
-          lspconfig[server_name].setup({
-            capabilities = capabilities,
-            on_attach = on_attach,
-          })
-        end,
-
-        -- === CONFIGURAÇÕES ESPECÍFICAS POR SERVIDOR ===
-
-        -- Lua LS: servidor para Lua
-        ["lua_ls"] = function()
-          lspconfig.lua_ls.setup({
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = {
-              Lua = {
-                diagnostics = {
-                  globals = { "vim" } -- Reconhece 'vim' como global
-                },
-              },
+      -- === CONFIGURAÇÃO USANDO vim.lsp.config (Neovim 0.11+) ===
+      
+      -- Lua LS
+      vim.lsp.config("lua_ls", {
+        cmd = { "lua-language-server" },
+        filetypes = { "lua" },
+        root_markers = { ".luarc.json", ".luarc.jsonc", ".luacheckrc", ".stylua.toml", "stylua.toml", "selene.toml", "selene.yml", ".git" },
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { "vim" }
             },
-          })
-        end,
-
-        -- Intelephense: servidor para PHP
-        ["intelephense"] = function()
-          lspconfig.intelephense.setup({
-            capabilities = capabilities,
-            on_attach = on_attach,
-            -- lspconfig já sabe configurar automaticamente
-            -- cmd, filetypes, root_dir, etc.
-          })
-        end,
+            workspace = {
+              checkThirdParty = false,
+            },
+            telemetry = {
+              enable = false,
+            },
+          },
+        },
       })
+
+      -- Intelephense (PHP)
+      vim.lsp.config("intelephense", {
+        cmd = { "intelephense", "--stdio" },
+        filetypes = { "php" },
+        root_markers = { "composer.json", ".git" },
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+
+      -- Tailwind CSS
+      vim.lsp.config("tailwindcss", {
+        cmd = { "tailwindcss-language-server", "--stdio" },
+        filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte" },
+        root_markers = { "tailwind.config.js", "tailwind.config.cjs", "tailwind.config.ts", ".git" },
+        capabilities = capabilities,
+        on_attach = on_attach,
+      })
+
+      -- Habilita os servidores LSP automaticamente
+      vim.lsp.enable({ "lua_ls", "intelephense", "tailwindcss" })
     end,
   },
 }

@@ -21,7 +21,6 @@ done
 # Starship
 eval "$(starship init zsh)"
 
-# faz o history funcionar diferente
 eval "$(atuin init zsh)"
 
 eval "$(zoxide init zsh)"
