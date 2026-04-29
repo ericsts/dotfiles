@@ -10,8 +10,9 @@ return {
     null_ls.setup({
       sources = {
         -- === FORMATTERS ===
-        null_ls.builtins.formatting.stylua, -- Formata Lua
-        null_ls.builtins.formatting.pint,   -- Formata PHP (Laravel)
+        null_ls.builtins.formatting.stylua,    -- Formata Lua
+        null_ls.builtins.formatting.pint,     -- Formata PHP (Laravel)
+        null_ls.builtins.formatting.goimports, -- Formata Go + organiza imports
 
         -- === LINTERS/DIAGNOSTICS ===
         -- null_ls.builtins.completion.spell, -- Spell check (desabilitado)

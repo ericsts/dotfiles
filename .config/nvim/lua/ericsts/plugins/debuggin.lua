@@ -27,7 +27,7 @@ return {
 
     -- === MASON-DAP: Instalador de adapters ===
     require("mason-nvim-dap").setup({
-      ensure_installed = { "php" }, -- Instala adapter PHP automaticamente
+      ensure_installed = { "php", "delve" }, -- Instala adapters PHP e Go (delve)
       automatic_setup = true,
     })
 

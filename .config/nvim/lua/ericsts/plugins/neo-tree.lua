@@ -14,7 +14,7 @@ return {
   config = function()
     require("neo-tree").setup({
       filesystem = {
-        follow_current_file = true, -- Foca no arquivo atual
+        follow_current_file = { enabled = true }, -- Foca no arquivo atual
         filtered_items = {
           visible = true,       -- Mostra arquivos filtrados
           hide_dotfiles = false, -- Não esconde arquivos com .

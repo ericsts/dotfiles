@@ -32,6 +32,7 @@ return {
           "lua_ls",       -- LSP para Lua
           "intelephense", -- LSP para PHP
           "tailwindcss",  -- LSP para Tailwind CSS
+          "gopls",        -- LSP para Go
         },
         automatic_installation = true,
       })
@@ -164,8 +165,24 @@ return {
         on_attach = on_attach,
       })
 
+      -- Go
+      vim.lsp.config("gopls", {
+        cmd = { "gopls" },
+        filetypes = { "go", "gomod", "gowork", "gotmpl" },
+        root_markers = { "go.mod", "go.work", ".git" },
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          gopls = {
+            analyses = { unusedparams = true },
+            staticcheck = true,
+            gofumpt = true,
+          },
+        },
+      })
+
       -- Habilita os servidores LSP automaticamente
-      vim.lsp.enable({ "lua_ls", "intelephense", "tailwindcss" })
+      vim.lsp.enable({ "lua_ls", "intelephense", "tailwindcss", "gopls" })
     end,
   },
 }
