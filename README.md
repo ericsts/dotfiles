@@ -12,8 +12,9 @@ dotfiles/
 │   │   └── laravel.sh            # Script helper para Laravel no Docker
 │   ├── kitty/
 │   │   ├── kitty.conf            # Configuração principal do Kitty
-│   │   ├── current-theme.conf    # Tema ativo (Adwaita darker)
-│   │   └── kitty-themes/         # Coleção de temas extras
+│   │   ├── current-theme.conf    # Tema ativo (carregado pelo kitty.conf)
+│   │   ├── themes/               # Temas disponíveis para trocar com `kt`
+│   │   └── kitty-themes/         # Coleção de temas extras (kitten themes)
 │   ├── nvim/                     # Configuração completa do Neovim
 │   │   ├── init.lua
 │   │   └── lua/ericsts/
@@ -222,20 +223,54 @@ Terminal emulador GPU-accelerated.
 
 | Configuração | Valor |
 |---|---|
-| Tema | Adwaita darker (`current-theme.conf`) |
+| Tema ativo | `current-theme.conf` |
 | Fonte | Hack Nerd Font, 12pt |
 | Opacidade de fundo | 50% (ajustável dinamicamente) |
-| Seleção de texto | Fundo azul `#62a0ea`, texto preto |
+| Seleção de texto | Fundo azul, texto preto |
 
-**Tema Adwaita darker (`current-theme.conf`):**
+### Temas disponíveis
 
-| Elemento | Cor |
+Os temas ficam em `.config/kitty/themes/` e o tema ativo é sempre o `current-theme.conf`.
+
+| Tema | Estilo |
 |---|---|
-| Background | `#000000` |
-| Foreground | `#deddda` |
-| Cursor | `#deddda` |
-| Seleção (fundo) | `#62a0ea` |
-| Seleção (texto) | `#000000` |
+| `adwaita-darker` | Escuro GNOME, preto com acentos azuis |
+| `catppuccin-mocha` | Escuro suave, paleta pastéis |
+| `dracula` | Escuro roxo, alto contraste |
+| `tokyo-night` | Escuro azulado, inspirado em Tokyo |
+| `gruvbox-dark` | Escuro quente, tons de marrom e amarelo |
+| `nord` | Escuro frio, paleta ártica azul-cinza |
+
+### Como trocar de tema
+
+**Opção 1 — Script com fzf (recomendado):**
+
+```bash
+kt        # alias para kitty-theme
+# ou
+kitty-theme
+```
+
+Abre um seletor interativo com preview do tema. Ao confirmar, o tema é aplicado imediatamente e o Kitty é recarregado.
+
+**Opção 2 — Kitty nativo (`kitten themes`):**
+
+```bash
+# Abre o gerenciador de temas oficial do Kitty
+kitten themes
+```
+
+O Kitty baixa temas da internet e permite preview em tempo real. O tema escolhido substitui o bloco `BEGIN_KITTY_THEME` no `kitty.conf`.
+
+**Opção 3 — Manual:**
+
+```bash
+# Copiar o tema desejado para current-theme.conf
+cp ~/.config/kitty/themes/dracula.conf ~/.config/kitty/current-theme.conf
+
+# Recarregar o Kitty
+kill -SIGUSR1 $(pgrep -x kitty)
+```
 
 **Atalhos úteis do Kitty:**
 
@@ -266,6 +301,107 @@ O prompt exibe (da esquerda para direita):
 Configuração modular em Lua, usando [Lazy.nvim](https://github.com/folke/lazy.nvim) como gerenciador de plugins.
 
 **Leader key: `<Space>`**
+
+### Tema de cores
+
+O tema atual é o **Catppuccin**, configurado em `.config/nvim/lua/ericsts/plugins/catppuccin.lua`.
+
+**Trocar a variante do Catppuccin:**
+
+O Catppuccin tem 4 variantes. Edite o arquivo `catppuccin.lua` e altere `flavour`:
+
+```lua
+require("catppuccin").setup({
+  flavour = "mocha",   -- mocha (escuro) | macchiato | frappe | latte (claro)
+})
+```
+
+| Variante | Estilo |
+|---|---|
+| `mocha` | Escuro intenso — padrão atual |
+| `macchiato` | Escuro médio |
+| `frappe` | Escuro suave |
+| `latte` | Claro |
+
+Você também pode deixar `flavour = "auto"` para seguir o tema do sistema operacional.
+
+**Trocar para outro tema:**
+
+Substitua o conteúdo de `catppuccin.lua` por um dos exemplos abaixo.
+
+<details>
+<summary>Tokyo Night</summary>
+
+```lua
+return {
+  "folke/tokyonight.nvim",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    require("tokyonight").setup({
+      style = "storm",  -- storm | night | moon | day
+      transparent = true,
+    })
+    vim.cmd.colorscheme "tokyonight"
+  end
+}
+```
+
+</details>
+
+<details>
+<summary>Dracula</summary>
+
+```lua
+return {
+  "Mofiqul/dracula.nvim",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    vim.cmd.colorscheme "dracula"
+  end
+}
+```
+
+</details>
+
+<details>
+<summary>Gruvbox</summary>
+
+```lua
+return {
+  "ellisonleao/gruvbox.nvim",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    require("gruvbox").setup({ contrast = "hard" })
+    vim.cmd.colorscheme "gruvbox"
+  end
+}
+```
+
+</details>
+
+<details>
+<summary>Kanagawa</summary>
+
+```lua
+return {
+  "rebelot/kanagawa.nvim",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    require("kanagawa").setup({
+      theme = "dragon",  -- wave | dragon | lotus
+    })
+    vim.cmd.colorscheme "kanagawa"
+  end
+}
+```
+
+</details>
+
+> Após substituir o plugin, rode `:Lazy sync` no Neovim para instalar o novo tema e remover o antigo.
 
 ### Gerenciadores
 
@@ -299,6 +435,13 @@ No Mason: `i` instala, `X` desinstala, `/` filtra por nome.
 | [neotest](https://github.com/nvim-neotest/neotest) + phpunit | Rodar testes PHPUnit/Pest |
 | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Syntax highlighting avançado |
 | [which-key.nvim](https://github.com/folke/which-key.nvim) | Mostra atalhos ao pressionar `<Space>` |
+| [harpoon2](https://github.com/ThePrimeagen/harpoon) | Marcar e navegar entre arquivos frequentes |
+| [flash.nvim](https://github.com/folke/flash.nvim) | Navegação turbo para qualquer texto visível |
+| [lazygit.nvim](https://github.com/kdheepak/lazygit.nvim) | Interface LazyGit integrada ao Neovim |
+| [vim-fugitive](https://github.com/tpope/vim-fugitive) | Git avançado: commits, diff, blame, merge |
+| [trouble.nvim](https://github.com/folke/trouble.nvim) | Painel organizado de diagnósticos e quickfix |
+| [todo-comments.nvim](https://github.com/folke/todo-comments.nvim) | Destaca e busca TODO/FIXME/HACK/NOTE no código |
+| [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) | Renderiza markdown com formatação visual no buffer |
 
 **LSPs instalados via Mason:**
 
@@ -421,6 +564,73 @@ No Mason: `i` instala, `X` desinstala, `/` filtra por nome.
 | `<C-w>s` | Split horizontal |
 | `<C-w>q` | Fecha janela |
 | `<C-w>=` | Equaliza tamanhos |
+
+#### Harpoon (navegação rápida entre arquivos)
+
+| Atalho | Ação |
+|---|---|
+| `<Space>ha` | Adicionar arquivo atual ao Harpoon |
+| `<Space>hh` | Abrir menu do Harpoon |
+| `<Space>1` / `2` / `3` / `4` | Pular direto para o arquivo marcado |
+| `<Space>hn` / `<Space>hp` | Próximo / anterior no Harpoon |
+
+#### Flash (jump turbo)
+
+| Atalho | Modo | Ação |
+|---|---|---|
+| `s` + 2 letras | Normal / Visual / Operator | Pular para qualquer texto visível |
+| `S` | Normal / Visual / Operator | Pular por nó do Treesitter |
+| `r` | Operator | Remote flash (aplicar operador em posição distante) |
+| `R` | Operator / Visual | Busca por nó do Treesitter |
+
+> **Nota:** `s` substitui o comando nativo `s` (substitute char). Use `cl` no lugar.
+
+#### LazyGit
+
+| Atalho | Ação |
+|---|---|
+| `<Space>gg` | Abrir LazyGit |
+| `<Space>gL` | Histórico do arquivo atual no LazyGit |
+
+#### Fugitive (git avançado)
+
+| Atalho / Comando | Ação |
+|---|---|
+| `<Space>gG` | Abrir status do Fugitive |
+| `<Space>gB` | Blame de todo o arquivo |
+| `<Space>gM` | Merge tool |
+| `:Gdiff` | Diff do arquivo atual |
+| `:Git commit` | Criar commit |
+| `:Git push` | Push |
+
+#### Trouble (diagnósticos)
+
+| Atalho | Ação |
+|---|---|
+| `<Space>xx` | Toggle diagnósticos do projeto |
+| `<Space>xb` | Toggle diagnósticos do buffer atual |
+| `<Space>xs` | Símbolos do arquivo |
+| `<Space>xl` | Definições e referências LSP |
+| `<Space>xq` | Quickfix list |
+| `]x` / `[x` | Próximo / anterior item no Trouble |
+
+#### Todo Comments
+
+| Atalho | Ação |
+|---|---|
+| `<Space>ft` | Buscar todos os TODOs com Telescope |
+| `]t` / `[t` | Próximo / anterior TODO no arquivo |
+
+Keywords destacadas automaticamente: `TODO`, `FIXME`, `HACK`, `WARN`, `NOTE`, `PERF`, `TEST`
+
+#### Render Markdown
+
+Ativa automaticamente em arquivos `.md`. Renderiza no buffer:
+- Headers com tamanho visual diferenciado
+- **Negrito**, *itálico*, `código inline`
+- Blocos de código com sintaxe
+- Listas com bullets reais
+- Tabelas alinhadas
 
 #### Vim nativos úteis
 

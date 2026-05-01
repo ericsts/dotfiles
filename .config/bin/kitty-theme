@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Troca o tema do Kitty usando fzf
+
+THEMES_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/kitty/themes"
+CURRENT="${XDG_CONFIG_HOME:-$HOME/.config}/kitty/current-theme.conf"
+
+if [ ! -d "$THEMES_DIR" ]; then
+    echo "Pasta de temas não encontrada: $THEMES_DIR" >&2
+    exit 1
+fi
+
+theme=$(find "$THEMES_DIR" -name "*.conf" | sort | while read -r f; do
+    name=$(grep -m1 "^## name:" "$f" | sed 's/^## name: //')
+    echo "${name:-$(basename "$f" .conf)}|$f"
+done | fzf --delimiter="|" \
+           --with-nth=1 \
+           --prompt="Kitty tema > " \
+           --preview='bat --style=plain --color=always {2}' \
+           --preview-window=right:50% \
+    | cut -d"|" -f2)
+
+[ -z "$theme" ] && exit 0
+
+cp "$theme" "$CURRENT"
+
+# Reload kitty
+if command -v kitten &>/dev/null; then
+    kitten @ set-colors --all --configured "$CURRENT" 2>/dev/null || true
+fi
+kill -SIGUSR1 $(pgrep -x kitty 2>/dev/null) 2>/dev/null || true
+
+name=$(grep -m1 "^## name:" "$theme" | sed 's/^## name: //')
+echo "Tema aplicado: ${name:-$(basename "$theme" .conf)}"

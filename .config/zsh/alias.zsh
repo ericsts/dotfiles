@@ -4,6 +4,8 @@ alias edit-zsh="nvim ~/.zshrc"
 alias n="nvim"
 alias y="yazi"
 
+alias kt="kitty-theme"
+
 alias lv="laravel"
 alias lva="laravel artisan"
 alias lvs="laravel shell"

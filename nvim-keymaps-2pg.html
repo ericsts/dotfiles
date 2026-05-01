@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<title>Neovim Atalhos — 2 páginas</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+@page{size:A4 landscape;margin:6mm 7mm}
+body{font-family:'Segoe UI',system-ui,sans-serif;font-size:7.8px;background:#fff;color:#1a1a2e;line-height:1.32}
+
+header{text-align:center;padding:3px 0 5px;border-bottom:2px solid #3b3b7b;margin-bottom:5px}
+header h1{font-size:12px;font-weight:800;color:#3b3b7b}
+header p{font-size:6.8px;color:#666;margin-top:1px}
+.lbadge{display:inline-block;margin-top:2px;padding:2px 9px;background:#f0eef8;border-radius:20px;font-size:6.8px;color:#5b3b8b}
+.lbadge kbd{background:#7b3bab;color:#fff;padding:0 3px;border-radius:2px;font-size:6.8px;font-weight:700}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+
+.section{background:#f8f8fc;border-radius:3px;border:1px solid #dde}
+.sh{display:flex;align-items:center;gap:4px;padding:3px 7px;font-weight:700;font-size:7.5px;letter-spacing:.25px;text-transform:uppercase;border-radius:3px 3px 0 0}
+
+.s-gen .sh{background:#e8e8f8;color:#3b3b9b}
+.s-neo .sh{background:#e8f4e8;color:#1b6b1b}
+.s-tel .sh{background:#f0e8f8;color:#6b1b9b}
+.s-lsp .sh{background:#fdf0e8;color:#8b4b1b}
+.s-cmp .sh{background:#e8f4f4;color:#1b6b6b}
+.s-dap .sh{background:#fde8e8;color:#8b1b1b}
+.s-git .sh{background:#fdf8e8;color:#7b5b1b}
+.s-tst .sh{background:#fce8f4;color:#8b1b6b}
+.s-trm .sh{background:#e8f0f8;color:#1b4b8b}
+.s-php .sh{background:#e8ecfc;color:#1b2b8b}
+.s-wk  .sh{background:#f4f4f4;color:#555}
+.s-hrp .sh{background:#fff0e8;color:#8b3b1b}
+.s-fls .sh{background:#f0ffe8;color:#2b6b1b}
+.s-lgit .sh{background:#e8fff4;color:#1b6b4b}
+.s-fug .sh{background:#fef4e8;color:#7b4b1b}
+.s-trbl .sh{background:#f8e8ff;color:#6b1b9b}
+.s-todo .sh{background:#fffbe8;color:#6b5b1b}
+.s-rmd  .sh{background:#e8f4ff;color:#1b4b8b}
+
+table{width:100%;border-collapse:collapse}
+tr:nth-child(even) td{background:rgba(0,0,0,.027)}
+td{padding:1.5px 6px;vertical-align:middle}
+td:first-child{width:44%;white-space:nowrap}
+td:last-child{color:#444;font-size:7.3px}
+
+.sub td{padding:3.5px 6px 1px;font-size:6.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#999;background:none!important;border-top:1px solid #dde}
+.sub:first-child td{border-top:none}
+
+kbd{display:inline-block;padding:0 3px;border-radius:2px;border:1px solid #bbc;background:#eeeef8;color:#1a1a4a;font-family:'Cascadia Code','Fira Code',monospace;font-size:6.5px;line-height:1.5;white-space:nowrap}
+kbd.l{background:#f5eaff;border-color:#9b60c0;color:#6b108b}
+kbd.c{background:#eaf0ff;border-color:#5070c0;color:#102090}
+kbd.m{background:#eaffea;border-color:#409040;color:#105010}
+kbd.k{background:#fff3ea;border-color:#c08040;color:#804010;font-size:6px}
+
+footer{text-align:center;margin-top:4px;padding-top:4px;border-top:1px solid #dde;color:#aaa;font-size:6.2px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Neovim — Referência Completa de Atalhos</h1>
+  <p>catppuccin · lazy.nvim · LSP · DAP · Neotest · Harpoon · Flash · Trouble · LazyGit · Fugitive · Todo Comments · Render Markdown</p>
+  <div class="lbadge">Leader key: <kbd>Space</kbd> &nbsp;·&nbsp; representado como <kbd class="l">&lt;leader&gt;</kbd></div>
+</header>
+
+<div class="grid">
+
+<!-- GERAL & SPLITS -->
+<div class="section s-gen">
+  <div class="sh">⚙ Geral &amp; Splits</div>
+  <table>
+    <tr class="sub"><td colspan="2">Arquivo</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>ya</kbd></td><td>Copiar arquivo inteiro (clipboard)</td></tr>
+    <tr class="sub"><td colspan="2">Navegar splits</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>H/L</kbd></td><td>Split esquerdo / direito</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>J/K</kbd></td><td>Split abaixo / acima</td></tr>
+    <tr class="sub"><td colspan="2">Gerenciar janelas</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>W</kbd><kbd>v</kbd></td><td>Split vertical</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>W</kbd><kbd>s</kbd></td><td>Split horizontal</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>W</kbd><kbd>q</kbd></td><td>Fechar janela</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>W</kbd><kbd>=</kbd></td><td>Equalizar tamanhos</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>W</kbd><kbd>o</kbd></td><td>Fechar todas menos a atual</td></tr>
+    <tr class="sub"><td colspan="2">Vim nativos</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>A</kbd> / <kbd class="c">Ctrl</kbd><kbd>X</kbd></td><td>Incrementar / decrementar número</td></tr>
+    <tr><td><kbd class="m">u</kbd> / <kbd class="c">Ctrl</kbd><kbd>R</kbd></td><td>Desfazer / Refazer</td></tr>
+    <tr><td><kbd class="m">gg</kbd> / <kbd class="m">G</kbd></td><td>Início / fim do arquivo</td></tr>
+    <tr><td><kbd class="m">*</kbd> / <kbd class="m">#</kbd></td><td>Buscar palavra sob cursor (↓/↑)</td></tr>
+    <tr><td><kbd class="m">ci"</kbd> <kbd class="m">ci(</kbd> …</td><td>Substituir dentro de delimitadores</td></tr>
+    <tr><td><kbd class="m">yiw</kbd> / <kbd class="m">diw</kbd></td><td>Yank / delete palavra</td></tr>
+    <tr><td><kbd class="m">.</kbd></td><td>Repetir último comando</td></tr>
+    <tr><td><kbd class="m">zz</kbd> / <kbd class="m">za</kbd></td><td>Centralizar / toggle fold</td></tr>
+    <tr><td><kbd class="m">%</kbd></td><td>Pular para bracket/paren par</td></tr>
+  </table>
+</div>
+
+<!-- NEO-TREE -->
+<div class="section s-neo">
+  <div class="sh">🌲 Neo-tree</div>
+  <table>
+    <tr class="sub"><td colspan="2">Globais</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>N</kbd></td><td>Abrir / fechar Neo-tree</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>e</kbd></td><td>Revelar arquivo atual</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>h</kbd></td><td>Toggle arquivos ocultos</td></tr>
+    <tr class="sub"><td colspan="2">Dentro do Neo-tree</td></tr>
+    <tr><td><kbd class="m">l</kbd> / <kbd class="m">Enter</kbd></td><td>Abrir arquivo ou pasta</td></tr>
+    <tr><td><kbd class="m">h</kbd></td><td>Ir para pasta pai</td></tr>
+    <tr><td><kbd class="m">Space</kbd></td><td>Expandir / colapsar</td></tr>
+    <tr><td><kbd class="m">Backspace</kbd></td><td>Fechar nó</td></tr>
+    <tr><td><kbd class="m">a</kbd></td><td>Criar arquivo / pasta</td></tr>
+    <tr><td><kbd class="m">d</kbd> / <kbd class="m">r</kbd></td><td>Deletar / Renomear</td></tr>
+    <tr><td><kbd class="m">y</kbd> / <kbd class="m">p</kbd> / <kbd class="m">x</kbd></td><td>Copiar / Colar / Recortar</td></tr>
+    <tr><td><kbd class="m">q</kbd> / <kbd class="m">?</kbd></td><td>Fechar / Ajuda</td></tr>
+  </table>
+</div>
+
+<!-- HARPOON -->
+<div class="section s-hrp">
+  <div class="sh">🎯 Harpoon</div>
+  <table>
+    <tr class="sub"><td colspan="2">Marcar arquivos</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>ha</kbd></td><td>Adicionar arquivo ao Harpoon</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>hh</kbd></td><td>Abrir menu do Harpoon</td></tr>
+    <tr class="sub"><td colspan="2">Navegar</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>1</kbd></td><td>Ir para arquivo marcado 1</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>2</kbd></td><td>Ir para arquivo marcado 2</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>3</kbd></td><td>Ir para arquivo marcado 3</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>4</kbd></td><td>Ir para arquivo marcado 4</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>hn</kbd> / <kbd class="l">&lt;leader&gt;</kbd><kbd>hp</kbd></td><td>Próximo / anterior</td></tr>
+  </table>
+</div>
+
+<!-- FLASH -->
+<div class="section s-fls">
+  <div class="sh">⚡ Flash — Jump Turbo</div>
+  <table>
+    <tr class="sub"><td colspan="2">Modos: normal, visual, operator</td></tr>
+    <tr><td><kbd class="m">s</kbd> + 2 letras</td><td>Pular para qualquer texto visível</td></tr>
+    <tr><td><kbd class="m">S</kbd></td><td>Pular por nó do Treesitter</td></tr>
+    <tr class="sub"><td colspan="2">Modo operator</td></tr>
+    <tr><td><kbd class="m">r</kbd></td><td>Remote flash (operador à distância)</td></tr>
+    <tr><td><kbd class="m">R</kbd></td><td>Busca por nó do Treesitter</td></tr>
+    <tr class="sub"><td colspan="2">Exemplo de uso</td></tr>
+    <tr><td><kbd class="m">ys</kbd>ff<kbd>)</kbd></td><td>Surround até "ff" com parênteses</td></tr>
+    <tr><td><kbd class="m">ds</kbd>ff</td><td>Delete até onde o flash pular</td></tr>
+    <tr><td colspan="2" style="color:#999;font-size:6.5px;padding:2px 6px">⚠ 's' substitui o nativo (use 'cl' no lugar)</td></tr>
+  </table>
+</div>
+
+<!-- TELESCOPE -->
+<div class="section s-tel">
+  <div class="sh">🔭 Telescope</div>
+  <table>
+    <tr class="sub"><td colspan="2">Abrir</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>P</kbd></td><td>Buscar arquivos</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>fg</kbd></td><td>Live grep</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>ft</kbd></td><td>Buscar TODOs</td></tr>
+    <tr><td><kbd class="k">:Telescope buffers</kbd></td><td>Buffers abertos</td></tr>
+    <tr><td><kbd class="k">:Telescope oldfiles</kbd></td><td>Arquivos recentes</td></tr>
+    <tr><td><kbd class="k">:Telescope keymaps</kbd></td><td>Listar atalhos</td></tr>
+    <tr class="sub"><td colspan="2">Dentro do Telescope</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>J/K</kbd></td><td>Navegar na lista</td></tr>
+    <tr><td><kbd class="m">Enter</kbd></td><td>Abrir selecionado</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>V</kbd> / <kbd class="c">Ctrl</kbd><kbd>X</kbd></td><td>Split vertical / horizontal</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>T</kbd></td><td>Nova aba</td></tr>
+    <tr><td><kbd class="m">Esc</kbd></td><td>Fechar</td></tr>
+  </table>
+</div>
+
+<!-- AUTOCOMPLETAR -->
+<div class="section s-cmp">
+  <div class="sh">💬 Autocompletar</div>
+  <table>
+    <tr class="sub"><td colspan="2">nvim-cmp</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>Space</kbd></td><td>Abrir menu manualmente</td></tr>
+    <tr><td><kbd class="m">Enter</kbd></td><td>Confirmar sugestão</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>E</kbd></td><td>Fechar menu / abortar</td></tr>
+    <tr><td><kbd class="m">↓</kbd> / <kbd class="m">↑</kbd></td><td>Próxima / anterior</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>N</kbd> / <kbd class="c">Ctrl</kbd><kbd>P</kbd></td><td>Próxima / anterior</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>B</kbd> / <kbd class="c">Ctrl</kbd><kbd>F</kbd></td><td>Scroll na doc ↑ / ↓</td></tr>
+    <tr class="sub"><td colspan="2">LuaSnip</td></tr>
+    <tr><td><kbd class="m">Tab</kbd></td><td>Expandir snippet / próximo campo</td></tr>
+    <tr><td><kbd class="m">Shift</kbd><kbd>Tab</kbd></td><td>Campo anterior</td></tr>
+  </table>
+</div>
+
+<!-- LSP -->
+<div class="section s-lsp">
+  <div class="sh">⚡ LSP</div>
+  <table>
+    <tr class="sub"><td colspan="2">Navegação</td></tr>
+    <tr><td><kbd class="m">gd</kbd></td><td>Ir para definição</td></tr>
+    <tr><td><kbd class="m">gD</kbd></td><td>Ir para declaração</td></tr>
+    <tr><td><kbd class="m">gR</kbd></td><td>Ver referências (Telescope)</td></tr>
+    <tr><td><kbd class="m">gi</kbd></td><td>Ver implementações</td></tr>
+    <tr><td><kbd class="m">gt</kbd></td><td>Ver type definitions</td></tr>
+    <tr><td><kbd class="m">K</kbd></td><td>Documentação hover</td></tr>
+    <tr class="sub"><td colspan="2">Ações</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>ca</kbd></td><td>Code actions</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>rn</kbd></td><td>Renomear símbolo</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>gf</kbd></td><td>Formatar arquivo</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>rs</kbd></td><td>Reiniciar LSP</td></tr>
+    <tr class="sub"><td colspan="2">Diagnósticos</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>d</kbd></td><td>Diagnóstico da linha (float)</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>D</kbd></td><td>Diagnósticos do buffer</td></tr>
+    <tr><td><kbd class="m">[d</kbd> / <kbd class="m">]d</kbd></td><td>Anterior / próximo</td></tr>
+  </table>
+</div>
+
+<!-- TROUBLE -->
+<div class="section s-trbl">
+  <div class="sh">🔴 Trouble — Diagnósticos</div>
+  <table>
+    <tr class="sub"><td colspan="2">Painéis</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>xx</kbd></td><td>Toggle diagnósticos do projeto</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>xb</kbd></td><td>Toggle diagnósticos do buffer</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>xs</kbd></td><td>Símbolos do arquivo</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>xl</kbd></td><td>Definições e referências LSP</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>xq</kbd></td><td>Quickfix list</td></tr>
+    <tr class="sub"><td colspan="2">Navegação</td></tr>
+    <tr><td><kbd class="m">]x</kbd> / <kbd class="m">[x</kbd></td><td>Próximo / anterior item</td></tr>
+    <tr class="sub"><td colspan="2">Dentro do Trouble</td></tr>
+    <tr><td><kbd class="m">Enter</kbd></td><td>Ir para o diagnóstico</td></tr>
+    <tr><td><kbd class="m">q</kbd></td><td>Fechar painel</td></tr>
+  </table>
+</div>
+
+<!-- GIT -->
+<div class="section s-git">
+  <div class="sh">🔀 Git — Gitsigns</div>
+  <table>
+    <tr class="sub"><td colspan="2">Hunks (Gitsigns)</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>gp</kbd></td><td>Preview do hunk</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>gr</kbd></td><td>Desfazer hunk</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>gd</kbd></td><td>Diff do arquivo</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>gb</kbd></td><td>Blame da linha</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>gf</kbd></td><td>Formatar (none-ls)</td></tr>
+    <tr><td><kbd class="m">[c</kbd> / <kbd class="m">]c</kbd></td><td>Hunk anterior / próximo</td></tr>
+    <tr class="sub"><td colspan="2">Indicadores na gutter</td></tr>
+    <tr><td><kbd class="m">│</kbd> verde / amarelo / <kbd class="m">▶</kbd> vermelho</td><td>Add / Mod / Del</td></tr>
+  </table>
+</div>
+
+<!-- LAZYGIT + FUGITIVE -->
+<div class="section s-lgit">
+  <div class="sh">🐙 LazyGit &amp; Fugitive</div>
+  <table>
+    <tr class="sub"><td colspan="2">LazyGit</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>gg</kbd></td><td>Abrir LazyGit</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>gL</kbd></td><td>Histórico do arquivo no LazyGit</td></tr>
+    <tr class="sub"><td colspan="2">Fugitive</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>gG</kbd></td><td>Status (Fugitive)</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>gB</kbd></td><td>Blame do arquivo inteiro</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>gM</kbd></td><td>Merge tool</td></tr>
+    <tr class="sub"><td colspan="2">Fugitive (comandos)</td></tr>
+    <tr><td><kbd class="k">:Gdiff</kbd></td><td>Diff do arquivo</td></tr>
+    <tr><td><kbd class="k">:Git commit</kbd></td><td>Criar commit</td></tr>
+    <tr><td><kbd class="k">:Git push</kbd></td><td>Push</td></tr>
+    <tr class="sub"><td colspan="2">Dentro do Fugitive</td></tr>
+    <tr><td><kbd class="m">s</kbd> / <kbd class="m">u</kbd></td><td>Stage / unstage</td></tr>
+    <tr><td><kbd class="m">cc</kbd></td><td>Commit</td></tr>
+    <tr><td><kbd class="m">=</kbd></td><td>Toggle diff inline</td></tr>
+    <tr><td><kbd class="m">q</kbd></td><td>Fechar</td></tr>
+  </table>
+</div>
+
+<!-- TODO COMMENTS -->
+<div class="section s-todo">
+  <div class="sh">📝 Todo Comments</div>
+  <table>
+    <tr class="sub"><td colspan="2">Navegação</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>ft</kbd></td><td>Buscar TODOs (Telescope)</td></tr>
+    <tr><td><kbd class="m">]t</kbd> / <kbd class="m">[t</kbd></td><td>Próximo / anterior TODO</td></tr>
+    <tr class="sub"><td colspan="2">Keywords destacadas</td></tr>
+    <tr><td><kbd>TODO</kbd></td><td>Tarefa a implementar</td></tr>
+    <tr><td><kbd>FIXME</kbd></td><td>Bug a corrigir</td></tr>
+    <tr><td><kbd>HACK</kbd></td><td>Solução temporária</td></tr>
+    <tr><td><kbd>WARN</kbd></td><td>Atenção / cuidado</td></tr>
+    <tr><td><kbd>NOTE</kbd></td><td>Observação importante</td></tr>
+    <tr><td><kbd>PERF</kbd></td><td>Otimização de performance</td></tr>
+  </table>
+</div>
+
+<!-- DEBUG -->
+<div class="section s-dap">
+  <div class="sh">🐛 Debug — DAP</div>
+  <table>
+    <tr class="sub"><td colspan="2">Execução</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>dc</kbd></td><td>Iniciar / continuar</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>dn</kbd></td><td>Step over</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>di</kbd></td><td>Step into</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>do</kbd></td><td>Step out</td></tr>
+    <tr class="sub"><td colspan="2">Breakpoints &amp; UI</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>dt</kbd></td><td>Toggle breakpoint</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>du</kbd></td><td>Toggle UI debug</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>dr</kbd></td><td>Abrir REPL</td></tr>
+    <tr class="sub"><td colspan="2">PHP Xdebug</td></tr>
+    <tr><td>Porta <kbd>9003</kbd></td><td>Modo launch (aguarda conexão)</td></tr>
+  </table>
+</div>
+
+<!-- TESTES -->
+<div class="section s-tst">
+  <div class="sh">🧪 Testes — Neotest / Pest</div>
+  <table>
+    <tr class="sub"><td colspan="2">Rodar</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>tr</kbd></td><td>Teste mais próximo do cursor</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>tf</kbd></td><td>Todos do arquivo atual</td></tr>
+    <tr class="sub"><td colspan="2">Interface</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>ts</kbd></td><td>Toggle painel de resumo</td></tr>
+    <tr><td><kbd class="m">Enter</kbd></td><td>Ir para o teste</td></tr>
+    <tr><td><kbd class="m">o</kbd></td><td>Abrir output do teste</td></tr>
+    <tr><td><kbd class="m">q</kbd></td><td>Fechar painel</td></tr>
+    <tr class="sub"><td colspan="2">Status inline</td></tr>
+    <tr><td><kbd class="m">✓</kbd> verde / <kbd class="m">✗</kbd> vermelho</td><td>Passou / Falhou</td></tr>
+  </table>
+</div>
+
+<!-- TERMINAL + PHP -->
+<div class="section s-trm">
+  <div class="sh">⬛ Terminal · 🐘 PHP / Laravel</div>
+  <table>
+    <tr class="sub"><td colspan="2">Toggleterm</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>\</kbd></td><td>Abrir / fechar terminal</td></tr>
+    <tr><td><kbd class="m">i</kbd></td><td>Entrar em modo inserção</td></tr>
+    <tr><td><kbd class="c">Ctrl</kbd><kbd>\</kbd><kbd class="c">Ctrl</kbd><kbd>N</kbd></td><td>Sair para modo normal</td></tr>
+    <tr class="sub"><td colspan="2">PHP / Pint</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>pf</kbd></td><td>Formatar arquivo com Pint</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>ps</kbd></td><td>Pint: arquivos staged</td></tr>
+    <tr><td><kbd class="l">&lt;leader&gt;</kbd><kbd>pa</kbd></td><td>Comando artisan</td></tr>
+    <tr><td><kbd class="k">:Laravel</kbd></td><td>Comandos Laravel (Tab completa)</td></tr>
+  </table>
+</div>
+
+<!-- RENDER MARKDOWN + WHICH-KEY -->
+<div class="section s-rmd">
+  <div class="sh">📄 Markdown · ❓ Comandos</div>
+  <table>
+    <tr class="sub"><td colspan="2">Render Markdown (auto em .md)</td></tr>
+    <tr><td>Headers</td><td>Tamanho visual diferenciado</td></tr>
+    <tr><td>Código, bold, itálico</td><td>Renderizado no buffer</td></tr>
+    <tr><td>Listas e tabelas</td><td>Formatação visual real</td></tr>
+    <tr class="sub"><td colspan="2">Comandos Neovim</td></tr>
+    <tr><td><kbd class="k">:w</kbd> / <kbd class="k">:wa</kbd> / <kbd class="k">:wq</kbd></td><td>Salvar / todos / sair</td></tr>
+    <tr><td><kbd class="k">:q</kbd> / <kbd class="k">:qa!</kbd></td><td>Sair / forçar sair</td></tr>
+    <tr><td><kbd class="k">:bd</kbd></td><td>Fechar buffer</td></tr>
+    <tr><td><kbd class="k">:%s/foo/bar/g</kbd></td><td>Substituir em todo arquivo</td></tr>
+    <tr><td><kbd class="k">:noh</kbd></td><td>Limpar highlight</td></tr>
+    <tr><td><kbd class="k">:Lazy</kbd></td><td>Plugins (I, U, X)</td></tr>
+    <tr><td><kbd class="k">:Mason</kbd></td><td>LSPs / tools</td></tr>
+    <tr><td><kbd class="k">:LspInfo</kbd></td><td>Status LSP ativo</td></tr>
+    <tr><td><kbd class="k">:checkhealth</kbd></td><td>Diagnosticar instalação</td></tr>
+    <tr><td><kbd class="m">Space</kbd> <em>(aguardar)</em></td><td>Which-key: ver todos atalhos</td></tr>
+  </table>
+</div>
+
+</div>
+<footer>Neovim · lazy.nvim · LSP · DAP · Neotest · Harpoon · Flash · Trouble · LazyGit · Fugitive · Todo Comments · Catppuccin &nbsp;|&nbsp; ericsts@gmail.com</footer>
+</body>
+</html>
