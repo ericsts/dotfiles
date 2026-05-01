@@ -3,11 +3,9 @@
 -- Mostra sugestões enquanto você digita
 
 return {
-  -- === CMP-NVIM-LSP: Fonte de completion do LSP ===
-  -- Fornece sugestões vindas dos servidores LSP
-  {
-    "hrsh7th/cmp-nvim-lsp"
-  },
+  { "hrsh7th/cmp-nvim-lsp" },
+  { "hrsh7th/cmp-cmdline" },
+  { "hrsh7th/cmp-path" },
 
   -- === LUASNIP: Engine de snippets ===
   -- Permite usar e criar snippets de código reutilizáveis
@@ -29,6 +27,24 @@ return {
       -- Carrega snippets do VSCode (friendly-snippets)
       require("luasnip.loaders.from_vscode").lazy_load()
 
+      -- Completion para a linha de comando (:comandos)
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = "path" },
+        }, {
+          { name = "cmdline" },
+        }),
+      })
+
+      -- Completion para busca (/ e ?)
+      cmp.setup.cmdline({ "/", "?" }, {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = "buffer" },
+        },
+      })
+
       cmp.setup({
         -- Configuração de snippets
         snippet = {
@@ -45,11 +61,15 @@ return {
 
         -- === ATALHOS DE COMPLETION ===
         mapping = cmp.mapping.preset.insert({
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),      -- Scroll docs para cima
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),       -- Scroll docs para baixo
-          ["<C-Space>"] = cmp.mapping.complete(),       -- Abre menu de completion
-          ["<C-e>"] = cmp.mapping.abort(),              -- Fecha menu
-          ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Confirma seleção
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<C-e>"] = cmp.mapping.abort(),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+          ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+          ["<C-n>"] = cmp.mapping.select_next_item(),
+          ["<C-p>"] = cmp.mapping.select_prev_item(),
         }),
 
         -- === FONTES DE COMPLETION (em ordem de prioridade) ===
