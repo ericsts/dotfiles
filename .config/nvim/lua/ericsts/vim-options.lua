@@ -1,4 +1,5 @@
 -- nvim/lua/ericsts/vim-options.lua
+
 vim.cmd("set expandtab")     -- Converte tabs em espaços
 vim.cmd("set tabstop=2")     -- Tamanho visual de um tab = 2 espaços
 vim.cmd("set softtabstop=2") -- Número de espaços ao pressionar Tab

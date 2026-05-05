@@ -1,3 +1,6 @@
+-- nvim/lua/ericsts/plugins/terminal.lua
+-- TERMINAL
+
 return {
   "akinsho/toggleterm.nvim",
   version = "*",

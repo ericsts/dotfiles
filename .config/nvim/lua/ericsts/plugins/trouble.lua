@@ -1,3 +1,6 @@
+-- nvim/lua/ericsts/plugins/trouble.lua
+-- TROUBLE:
+
 return {
   "folke/trouble.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },

@@ -1,5 +1,6 @@
 -- nvim/lua/ericsts/lazy.lua
 -- Instala o Lazy.nvim automaticamente se não estiver instalado
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({

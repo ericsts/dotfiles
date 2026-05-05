@@ -1,3 +1,6 @@
+-- nvim/lua/ericsts/plugins/todo-comments.lua
+-- TODO-COMMENTS
+
 return {
   "folke/todo-comments.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },

@@ -1,3 +1,6 @@
+-- nvim/lua/ericsts/plugins/lazygit.lua
+-- LAZYGIT:
+
 return {
   "kdheepak/lazygit.nvim",
   lazy = true,

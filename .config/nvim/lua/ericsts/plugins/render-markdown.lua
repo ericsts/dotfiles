@@ -1,3 +1,6 @@
+-- nvim/lua/ericsts/plugins/render-markdown.lua
+-- READER-MARKDOWN:
+
 return {
   "MeanderingProgrammer/render-markdown.nvim",
   dependencies = {
