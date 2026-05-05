@@ -5,21 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Neovim Cheat Sheet — ericsts</title>
   <style>
-    /* ── Paleta WezTerm ──────────────────────────────── */
+    /* ── Paleta clara (amigável para impressão) ─────── */
     :root {
-      --bg:       #011423;
-      --bg2:      #033259;
-      --bg3:      #0a2744;
-      --overlay:  #214969;
-      --fg:       #CBE0F0;
-      --fg2:      #85b0d0;
-      --green:    #44FFB1;
-      --cyan:     #24EAF7;
-      --blue:     #0FC5ED;
-      --purple:   #A277FF;
-      --yellow:   #FFE073;
-      --red:      #E52E2E;
-      --cursor:   #47FF9C;
+      --bg:       #f5f5f5;
+      --bg2:      #e0e0e0;
+      --bg3:      #ffffff;
+      --overlay:  #ebebeb;
+      --fg:       #1a1a1a;
+      --fg2:      #555555;
+      /* acentos em tons escuros para boa leitura no branco */
+      --blue:     #0066aa;
+      --cyan:     #007a8a;
+      --green:    #1a7a4a;
+      --purple:   #6633bb;
+      --yellow:   #8a6800;
+      --red:      #cc0000;
+      --orange:   #b35000;
     }
 
     /* ── Reset / Base ───────────────────────────────── */
@@ -29,21 +30,21 @@
       background: var(--bg);
       color: var(--fg);
       font-family: "Hack Nerd Font Mono", "JetBrains Mono", "Fira Code", monospace;
-      font-size: 13px;
-      line-height: 1.55;
-      padding: 24px 20px 40px;
+      font-size: 10px;
+      line-height: 1.5;
+      padding: 20px 16px 20px;
     }
 
     /* ── Cabeçalho ──────────────────────────────────── */
     header {
       text-align: center;
       margin-bottom: 32px;
-      border-bottom: 1px solid var(--bg2);
+      border-bottom: 2px solid var(--bg2);
       padding-bottom: 20px;
     }
     header h1 {
       font-size: 2rem;
-      color: var(--cursor);
+      color: var(--blue);
       letter-spacing: 2px;
       text-transform: uppercase;
     }
@@ -53,7 +54,7 @@
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 18px;
+      gap: 16px;
     }
 
     /* ── Card de seção ──────────────────────────────── */
@@ -62,6 +63,7 @@
       border: 1px solid var(--bg2);
       border-radius: 8px;
       overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
     }
     .card-header {
       display: flex;
@@ -72,33 +74,35 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1.2px;
+      background: var(--bg2);
     }
     .card-header .icon { font-size: 1rem; }
 
-    /* Cores de acento por categoria */
-    .cat-nav    .card-header { background: color-mix(in srgb, var(--blue)   20%, transparent); color: var(--blue);   border-bottom: 1px solid var(--blue); }
-    .cat-file   .card-header { background: color-mix(in srgb, var(--cyan)   20%, transparent); color: var(--cyan);   border-bottom: 1px solid var(--cyan); }
-    .cat-git    .card-header { background: color-mix(in srgb, var(--orange, #FF9E3B) 20%, transparent); color: #FF9E3B; border-bottom: 1px solid #FF9E3B; }
-    .cat-lsp    .card-header { background: color-mix(in srgb, var(--purple) 20%, transparent); color: var(--purple); border-bottom: 1px solid var(--purple); }
-    .cat-debug  .card-header { background: color-mix(in srgb, var(--red)    20%, transparent); color: var(--red);    border-bottom: 1px solid var(--red); }
-    .cat-search .card-header { background: color-mix(in srgb, var(--yellow) 20%, transparent); color: var(--yellow); border-bottom: 1px solid var(--yellow); }
-    .cat-php    .card-header { background: color-mix(in srgb, var(--green)  20%, transparent); color: var(--green);  border-bottom: 1px solid var(--green); }
-    .cat-misc   .card-header { background: color-mix(in srgb, var(--fg2)    20%, transparent); color: var(--fg2);    border-bottom: 1px solid var(--fg2); }
+    /* Borda esquerda colorida por categoria */
+    .cat-nav    .card-header { border-left: 4px solid var(--blue);   color: var(--blue);   }
+    .cat-file   .card-header { border-left: 4px solid var(--cyan);   color: var(--cyan);   }
+    .cat-git    .card-header { border-left: 4px solid var(--orange); color: var(--orange); }
+    .cat-lsp    .card-header { border-left: 4px solid var(--purple); color: var(--purple); }
+    .cat-debug  .card-header { border-left: 4px solid var(--red);    color: var(--red);    }
+    .cat-search .card-header { border-left: 4px solid var(--yellow); color: var(--yellow); }
+    .cat-php    .card-header { border-left: 4px solid var(--green);  color: var(--green);  }
+    .cat-misc   .card-header { border-left: 4px solid var(--fg2);    color: var(--fg2);    }
 
     /* ── Tabela de atalhos ──────────────────────────── */
     table {
       width: 100%;
       border-collapse: collapse;
     }
-    tr:nth-child(even) td { background: rgba(255,255,255,0.025); }
-    tr:hover td { background: var(--bg2); }
+    tr:nth-child(even) td { background: #f9f9f9; }
+    tr:hover td { background: #eef4ff; }
     td {
       padding: 5px 14px;
       vertical-align: middle;
     }
     td:first-child {
-      width: 42%;
+      width: 1%;
       white-space: nowrap;
+      padding-right: 8px;
     }
     td:last-child { color: var(--fg2); }
 
@@ -107,7 +111,7 @@
       display: inline-block;
       background: var(--overlay);
       color: var(--fg);
-      border: 1px solid var(--bg2);
+      border: 1px solid #bbb;
       border-radius: 4px;
       padding: 1px 6px;
       font-family: inherit;
@@ -115,9 +119,9 @@
       line-height: 1.6;
       white-space: nowrap;
     }
-    kbd.leader { color: var(--cursor); border-color: var(--cursor); background: color-mix(in srgb, var(--cursor) 12%, transparent); }
-    kbd.ctrl   { color: var(--cyan);   border-color: var(--cyan);   background: color-mix(in srgb, var(--cyan)   12%, transparent); }
-    kbd.mode   { color: var(--yellow); border-color: var(--yellow); background: color-mix(in srgb, var(--yellow) 12%, transparent); }
+    kbd.leader { color: var(--blue);   border-color: var(--blue);   background: #ddeeff; }
+    kbd.ctrl   { color: var(--cyan);   border-color: var(--cyan);   background: #ddf3f5; }
+    kbd.mode   { color: var(--yellow); border-color: var(--yellow); background: #fdf5dc; }
 
     /* ── Separador de grupo ─────────────────────────── */
     .group-label td {
@@ -126,7 +130,7 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       color: var(--fg2);
-      opacity: 0.6;
+      opacity: 0.7;
     }
 
     /* ── Notas de rodapé ────────────────────────────── */
@@ -135,7 +139,6 @@
       text-align: center;
       color: var(--fg2);
       font-size: 0.75rem;
-      opacity: 0.5;
     }
 
     /* ── Legenda ────────────────────────────────────── */
@@ -146,71 +149,19 @@
       flex-wrap: wrap;
       margin-bottom: 24px;
       font-size: 0.8rem;
+      color: var(--fg2);
     }
     .legend span { display: flex; align-items: center; gap: 6px; }
 
     /* ── Print ──────────────────────────────────────── */
     @media print {
-      /* Força fundo branco em tudo — economiza tinta */
-      *, *::before, *::after {
-        background: #fff !important;
-        color: #111 !important;
-        border-color: #bbb !important;
-        box-shadow: none !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-
       body { font-size: 9.5px; padding: 6px; line-height: 1.4; }
-
-      header { border-bottom: 1px solid #bbb !important; padding-bottom: 8px; margin-bottom: 16px; }
-      header h1 { font-size: 1.3rem; letter-spacing: 1px; }
-      header p  { font-size: 0.75rem; color: #555 !important; }
-
       .legend { display: none; }
       footer  { display: none; }
-
-      .grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-      }
-
-      .card { border: 1px solid #bbb !important; break-inside: avoid; border-radius: 4px; }
-
-      /* Cabeçalhos dos cards: fundo cinza bem claro, texto escuro com borda esquerda colorida */
-      .cat-nav   .card-header { border-left: 3px solid #0077aa !important; }
-      .cat-file  .card-header { border-left: 3px solid #007a7a !important; }
-      .cat-git   .card-header { border-left: 3px solid #b36000 !important; }
-      .cat-lsp   .card-header { border-left: 3px solid #6600cc !important; }
-      .cat-debug .card-header { border-left: 3px solid #cc0000 !important; }
-      .cat-search .card-header { border-left: 3px solid #997700 !important; }
-      .cat-php   .card-header { border-left: 3px solid #006633 !important; }
-      .cat-misc  .card-header { border-left: 3px solid #444 !important; }
-
-      .card-header {
-        background: #f0f0f0 !important;
-        color: #111 !important;
-        border-bottom: 1px solid #ccc !important;
-        padding: 5px 10px;
-        font-size: 0.72rem;
-      }
-
-      td { padding: 3px 10px; }
-      td:last-child { color: #444 !important; }
-
-      tr:nth-child(even) td { background: #f8f8f8 !important; }
-      tr:hover td { background: #fff !important; }
-
-      .group-label td { color: #666 !important; opacity: 1; padding-top: 5px; }
-
-      kbd {
-        background: #ebebeb !important;
-        color: #111 !important;
-        border: 1px solid #999 !important;
-        padding: 0px 4px;
-        border-radius: 3px;
-        font-size: 0.78rem;
-      }
+      .grid   { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .card   { break-inside: avoid; box-shadow: none; }
+      td      { padding: 3px 10px; }
+      tr:hover td { background: transparent; }
     }
   </style>
 </head>
@@ -317,7 +268,7 @@
         Pressione <kbd>s</kbd> → comece a digitar o texto → rótulos aparecem
         sobre os matches → pressione o rótulo para pular
       </td></tr>
-      <tr><td colspan="2" style="color:#FF9E3B; font-size:0.78rem; padding:2px 14px">
+      <tr><td colspan="2" style="color:#b35000; font-size:0.78rem; padding:2px 14px">
         ⚠ <kbd>s</kbd> substitui o "substitute char" nativo. Use <kbd>cl</kbd> no lugar.
       </td></tr>
     </table>
@@ -445,11 +396,11 @@
       <tr><td><kbd>]t</kbd> / <kbd>[t</kbd></td><td>Próximo / anterior TODO</td></tr>
       <tr class="group-label"><td colspan="2">Tags reconhecidas</td></tr>
       <tr><td colspan="2" style="padding:4px 14px; font-size:0.8rem; color:var(--fg2)">
-        <span style="color:#FFE073">TODO</span> &nbsp;
-        <span style="color:#E52E2E">FIXME BUG</span> &nbsp;
-        <span style="color:#FF9E3B">HACK WARN</span> &nbsp;
-        <span style="color:#24EAF7">NOTE</span> &nbsp;
-        <span style="color:#44FFB1">PERF TEST</span>
+        <span style="color:#8a6800;font-weight:bold">TODO</span> &nbsp;
+        <span style="color:#cc0000;font-weight:bold">FIXME BUG</span> &nbsp;
+        <span style="color:#b35000;font-weight:bold">HACK WARN</span> &nbsp;
+        <span style="color:#007a8a;font-weight:bold">NOTE</span> &nbsp;
+        <span style="color:#1a7a4a;font-weight:bold">PERF TEST</span>
       </td></tr>
     </table>
   </div>
@@ -515,15 +466,15 @@
     <div class="card-header"><span class="icon">󰊢</span> Símbolos Git (Neo-tree / Gitsigns)</div>
     <table>
       <tr class="group-label"><td colspan="2">Ícones na árvore de arquivos</td></tr>
-      <tr><td><kbd style="color:#FFE073;border-color:#FFE073">?</kbd></td><td><b>Untracked</b> — git não rastreia este arquivo (falta git add)</td></tr>
-      <tr><td><kbd style="color:#0FC5ED;border-color:#0FC5ED">M</kbd></td><td><b>Modified</b> — arquivo tem mudanças não commitadas</td></tr>
-      <tr><td><kbd style="color:#44FFB1;border-color:#44FFB1">A</kbd></td><td><b>Added / Staged</b> — arquivo adicionado ao index (git add feito)</td></tr>
-      <tr><td><kbd style="color:#E52E2E;border-color:#E52E2E">D</kbd></td><td><b>Deleted</b> — arquivo deletado no git</td></tr>
-      <tr><td><kbd style="color:#E52E2E;border-color:#E52E2E">U</kbd> / <kbd style="color:#E52E2E;border-color:#E52E2E">!</kbd></td><td><b>Conflito de merge</b> — precisa resolver manualmente</td></tr>
+      <tr><td><kbd style="color:#8a6800;border-color:#8a6800;background:#fdf5dc">?</kbd></td><td><b>Untracked</b> — git não rastreia este arquivo (falta git add)</td></tr>
+      <tr><td><kbd style="color:#0066aa;border-color:#0066aa;background:#ddeeff">M</kbd></td><td><b>Modified</b> — arquivo tem mudanças não commitadas</td></tr>
+      <tr><td><kbd style="color:#1a7a4a;border-color:#1a7a4a;background:#ddf5ea">A</kbd></td><td><b>Added / Staged</b> — arquivo adicionado ao index (git add feito)</td></tr>
+      <tr><td><kbd style="color:#cc0000;border-color:#cc0000;background:#fdecea">D</kbd></td><td><b>Deleted</b> — arquivo deletado no git</td></tr>
+      <tr><td><kbd style="color:#cc0000;border-color:#cc0000;background:#fdecea">U</kbd> / <kbd style="color:#cc0000;border-color:#cc0000;background:#fdecea">!</kbd></td><td><b>Conflito de merge</b> — precisa resolver manualmente</td></tr>
       <tr class="group-label"><td colspan="2">Ícones na margem (gutter) do buffer</td></tr>
-      <tr><td><kbd style="color:#44FFB1;border-color:#44FFB1">│</kbd> verde</td><td>Linha <b>adicionada</b></td></tr>
-      <tr><td><kbd style="color:#0FC5ED;border-color:#0FC5ED">│</kbd> azul</td><td>Linha <b>modificada</b></td></tr>
-      <tr><td><kbd style="color:#E52E2E;border-color:#E52E2E">_</kbd> vermelho</td><td>Linha <b>removida</b></td></tr>
+      <tr><td><kbd style="color:#1a7a4a;border-color:#1a7a4a;background:#ddf5ea">│</kbd> verde</td><td>Linha <b>adicionada</b></td></tr>
+      <tr><td><kbd style="color:#0066aa;border-color:#0066aa;background:#ddeeff">│</kbd> azul</td><td>Linha <b>modificada</b></td></tr>
+      <tr><td><kbd style="color:#cc0000;border-color:#cc0000;background:#fdecea">_</kbd> vermelho</td><td>Linha <b>removida</b></td></tr>
     </table>
   </div>
 
@@ -531,10 +482,10 @@
     <div class="card-header"><span class="icon">󰘦</span> Símbolos LSP (Diagnósticos)</div>
     <table>
       <tr class="group-label"><td colspan="2">Ícones no gutter e na árvore</td></tr>
-      <tr><td><kbd style="color:#E52E2E;border-color:#E52E2E">󰅚</kbd> vermelho</td><td><b>Erro</b> — sintaxe, tipo, referência inválida</td></tr>
-      <tr><td><kbd style="color:#FFE073;border-color:#FFE073">󰀪</kbd> amarelo</td><td><b>Warning</b> — possível problema, mas não crítico</td></tr>
-      <tr><td><kbd style="color:#0FC5ED;border-color:#0FC5ED">󰌶</kbd> azul</td><td><b>Hint</b> — sugestão do LSP (import não usado, etc.)</td></tr>
-      <tr><td><kbd style="color:#24EAF7;border-color:#24EAF7">󰋽</kbd> cyan</td><td><b>Info</b> — informação do LSP</td></tr>
+      <tr><td><kbd style="color:#cc0000;border-color:#cc0000;background:#fdecea">󰅚</kbd> vermelho</td><td><b>Erro</b> — sintaxe, tipo, referência inválida</td></tr>
+      <tr><td><kbd style="color:#8a6800;border-color:#8a6800;background:#fdf5dc">󰀪</kbd> amarelo</td><td><b>Warning</b> — possível problema, mas não crítico</td></tr>
+      <tr><td><kbd style="color:#0066aa;border-color:#0066aa;background:#ddeeff">󰌶</kbd> azul</td><td><b>Hint</b> — sugestão do LSP (import não usado, etc.)</td></tr>
+      <tr><td><kbd style="color:#007a8a;border-color:#007a8a;background:#ddf3f5">󰋽</kbd> cyan</td><td><b>Info</b> — informação do LSP</td></tr>
       <tr class="group-label"><td colspan="2">Se aparecer quadrado □ ou ponto estranho</td></tr>
       <tr><td colspan="2" style="color:var(--fg2); font-size:0.8rem; padding:4px 14px">
         Fonte <b>Hack Nerd Font</b> não instalada ou não selecionada no terminal.
