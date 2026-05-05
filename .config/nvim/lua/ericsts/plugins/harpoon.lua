@@ -1,5 +1,17 @@
 -- nvim/lua/ericsts/plugins/harpoon.lua
--- HARPOON:
+-- HARPOON: Marcador rápido de arquivos — navegue entre até 4 arquivos
+-- "pinados" sem precisar de Telescope ou Neo-tree.
+--
+-- COMO FUNCIONA:
+--   Você adiciona arquivos à lista do Harpoon e depois salta entre eles
+--   diretamente pelos números 1-4 ou pelos atalhos next/prev.
+--   A lista fica salva por projeto (detectado pelo diretório raiz git).
+--
+-- FLUXO DE USO:
+--   1. Abra o arquivo que quer marcar → <leader>ha  (add)
+--   2. Repita para outros arquivos (até 4)
+--   3. <leader>hh  para ver/reordenar a lista
+--   4. <leader>1-4 para pular direto ao arquivo desejado
 
 return {
   "ThePrimeagen/harpoon",

@@ -1,5 +1,18 @@
 -- nvim/lua/ericsts/plugins/trouble.lua
--- TROUBLE:
+-- TROUBLE: Painel de diagnósticos, erros LSP e quickfix com visual elegante.
+-- Substitui a quickfix list e o location list nativos do Neovim com uma
+-- interface organizada que mostra erros, warnings, hints agrupados por arquivo.
+--
+-- COMO FUNCIONA:
+--   Abre um painel (geralmente na parte inferior) listando todos os problemas
+--   do projeto ou do buffer atual. Clicar/Enter em um item pula para o local.
+--
+-- MODOS DISPONÍVEIS:
+--   diagnostics  → todos os erros do workspace
+--   buffer atual → só erros do arquivo aberto
+--   symbols      → símbolos LSP do buffer (funções, classes, etc.)
+--   lsp          → referências e definições LSP
+--   quickfix     → itens da quickfix list
 
 return {
   "folke/trouble.nvim",

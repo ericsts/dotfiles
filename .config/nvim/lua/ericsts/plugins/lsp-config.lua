@@ -106,10 +106,10 @@ return {
       vim.diagnostic.config({
         signs = {
           text = {
-            [severity.ERROR] = "✘ ",
-            [severity.WARN] = "▲ ",
-            [severity.HINT] = "⚑ ",
-            [severity.INFO] = " ",
+            [severity.ERROR] = "󰅚 ", -- nf-md-close_circle
+            [severity.WARN]  = "󰀪 ", -- nf-md-alert
+            [severity.HINT]  = "󰌶 ", -- nf-md-lightbulb
+            [severity.INFO]  = "󰋽 ", -- nf-md-information
           },
         },
       })

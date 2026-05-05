@@ -8,3 +8,17 @@ vim.cmd("set shiftwidth=2")  -- Número de espaços para indentação automátic
 vim.g.mapleader = " "
 
 vim.keymap.set("n", "<leader>ya", ":%y+<CR>", { desc = "Yank entire file" })
+
+-- Recarrega arquivos modificados externamente (ex: gerados por Claude Code,
+-- git pull, formatadores, etc.) sem precisar reiniciar o Neovim.
+-- checktime dispara a verificação sempre que o Neovim ganhar foco ou
+-- o cursor parar de se mover por um instante.
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  pattern = "*",
+  callback = function()
+    if vim.fn.mode() ~= "c" then
+      vim.cmd("checktime")
+    end
+  end,
+})

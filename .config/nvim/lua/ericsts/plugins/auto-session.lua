@@ -1,5 +1,17 @@
 -- nvim/lua/ericsts/plugins/auto-session.lua
--- AUTO-SESSION:
+-- AUTO-SESSION: Salva e restaura sessões do Neovim por diretório de trabalho.
+-- Cada pasta do projeto tem sua própria sessão: buffers abertos, splits,
+-- posição do cursor, etc. são preservados entre fechamentos do editor.
+--
+-- COMO FUNCIONA:
+--   auto_restore_enabled = false → você escolhe QUANDO restaurar (não automático)
+--   A sessão é vinculada ao cwd (Current Working Directory) do Neovim.
+--
+-- FLUXO DE USO:
+--   1. Trabalhe normalmente no projeto, abra arquivos, splits, etc.
+--   2. <leader>ws  → salva a sessão atual
+--   3. Feche o Neovim. Na próxima vez que abrir no mesmo diretório:
+--   4. <leader>wr  → restaura exatamente como estava
 
 return {
   "rmagatti/auto-session",
