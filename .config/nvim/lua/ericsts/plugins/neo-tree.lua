@@ -13,6 +13,19 @@ return {
   lazy = false, -- Sempre disponível
   config = function()
     require("neo-tree").setup({
+      -- Ícones de diagnóstico LSP exibidos à direita do nome do arquivo
+      -- Usa os mesmos nf-md-* definidos em lsp-config.lua
+      default_component_configs = {
+        diagnostics = {
+          symbols = {
+            error = "󰅚",
+            warn  = "󰀪",
+            hint  = "󰌶",
+            info  = "󰋽",
+          },
+        },
+      },
+
       filesystem = {
         follow_current_file = { enabled = true }, -- Foca no arquivo atual
         filtered_items = {
