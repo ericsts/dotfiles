@@ -11,12 +11,36 @@ return {
     config = function()
       local builtin = require("telescope.builtin")
 
-      -- === ATALHOS PRINCIPAIS ===
-      -- Ctrl+P: Busca arquivos (como no VSCode)
-      vim.keymap.set('n', '<C-p>', builtin.find_files, { desc = "Find files" })
+      require("telescope").setup({
+        defaults = {
+          -- Passa --hidden para o ripgrep incluir arquivos/diretórios ocultos (.config, .env, etc.)
+          -- --glob=!.git/* evita entrar na pasta .git
+          vimgrep_arguments = {
+            "rg",
+            "--color=never",
+            "--no-heading",
+            "--with-filename",
+            "--line-number",
+            "--column",
+            "--smart-case",
+            "--hidden",
+            "--glob=!.git/*",
+          },
+        },
+      })
 
-      -- <leader>fg: Busca texto em todos os arquivos (grep)
-      vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = "Live grep" })
+      -- Ctrl+P: busca arquivos incluindo ocultos
+      vim.keymap.set("n", "<C-p>", function()
+        builtin.find_files({ hidden = true, no_ignore = false })
+      end, { desc = "Find files (including hidden)" })
+
+      -- <leader>fg: grep em todos os arquivos incluindo ocultos
+      vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live grep (including hidden)" })
+
+      -- Command palette: busca e executa qualquer comando/atalho do Neovim
+      vim.keymap.set("n", "<leader>fc", builtin.commands,  { desc = "Command palette (comandos)" })
+      vim.keymap.set("n", "<leader>fk", builtin.keymaps,   { desc = "Command palette (atalhos)" })
+      vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Buscar documentação (:help)" })
     end
   },
 

@@ -15,3 +15,5 @@ alias lvm="laravel migrate"
 alias lvt="laravel tinker"
 alias lvst="laravel status"
 alias lvl="laravel logs"
+
+alias cd="z"

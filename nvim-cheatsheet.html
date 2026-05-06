@@ -99,11 +99,8 @@
       padding: 5px 14px;
       vertical-align: middle;
     }
-    td:first-child {
-      width: 1%;
-      white-space: nowrap;
-      padding-right: 8px;
-    }
+    td:first-child:not([colspan]) { width: 1%; white-space: nowrap; padding-right: 8px; }
+    td[colspan] { white-space: normal; word-wrap: break-word; overflow-wrap: break-word; }
     td:last-child { color: var(--fg2); }
 
     /* ── Tecla ──────────────────────────────────────── */
@@ -238,12 +235,16 @@
   <!-- TELESCOPE                                          -->
   <!-- ══════════════════════════════════════════════════ -->
   <div class="card cat-search">
-    <div class="card-header"><span class="icon">󰭎</span> Telescope — Busca</div>
+    <div class="card-header"><span class="icon">󰭎</span> Telescope — Busca &amp; Command Palette</div>
     <table>
-      <tr class="group-label"><td colspan="2">Abrir pickers</td></tr>
-      <tr><td><kbd class="ctrl">C-p</kbd></td><td>Buscar arquivos (fuzzy)</td></tr>
-      <tr><td><kbd class="leader">spc</kbd><kbd>fg</kbd></td><td>Live grep (busca em texto)</td></tr>
+      <tr class="group-label"><td colspan="2">Arquivos &amp; texto</td></tr>
+      <tr><td><kbd class="ctrl">C-p</kbd></td><td>Buscar arquivos (inclui ocultos)</td></tr>
+      <tr><td><kbd class="leader">spc</kbd><kbd>fg</kbd></td><td>Live grep em todos os arquivos</td></tr>
       <tr><td><kbd class="leader">spc</kbd><kbd>ft</kbd></td><td>Buscar TODOs (todo-comments)</td></tr>
+      <tr class="group-label"><td colspan="2">Command palette</td></tr>
+      <tr><td><kbd class="leader">spc</kbd><kbd>fc</kbd></td><td>Buscar e executar <b>qualquer comando</b> do Neovim</td></tr>
+      <tr><td><kbd class="leader">spc</kbd><kbd>fk</kbd></td><td>Buscar <b>todos os atalhos</b> mapeados</td></tr>
+      <tr><td><kbd class="leader">spc</kbd><kbd>fh</kbd></td><td>Buscar na <b>documentação</b> (:help)</td></tr>
       <tr class="group-label"><td colspan="2">Dentro do Telescope</td></tr>
       <tr><td><kbd class="ctrl">C-n</kbd> / <kbd class="ctrl">C-p</kbd></td><td>Navegar na lista</td></tr>
       <tr><td><kbd>&lt;CR&gt;</kbd></td><td>Abrir selecionado</td></tr>
