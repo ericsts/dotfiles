@@ -37,6 +37,9 @@ return {
       -- <leader>fg: grep em todos os arquivos incluindo ocultos
       vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live grep (including hidden)" })
 
+      -- Arquivos recentes
+      vim.keymap.set("n", "<leader>fr", builtin.oldfiles,  { desc = "Arquivos recentes" })
+
       -- Command palette: busca e executa qualquer comando/atalho do Neovim
       vim.keymap.set("n", "<leader>fc", builtin.commands,  { desc = "Command palette (comandos)" })
       vim.keymap.set("n", "<leader>fk", builtin.keymaps,   { desc = "Command palette (atalhos)" })

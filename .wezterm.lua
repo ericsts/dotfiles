@@ -9,18 +9,28 @@ local config = wezterm.config_builder()
 -- =====================
 local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
 
+-- Salva o estado de TODOS os workspaces abertos
+local function save_all_workspaces()
+  for _, workspace in ipairs(wezterm.mux.get_workspace_names()) do
+    local state = resurrect.workspace_state.get_workspace_state(workspace)
+    if state then
+      resurrect.save_state(state)
+    end
+  end
+end
+
 -- Salva automaticamente a cada 5 minutos
 local function auto_save()
   wezterm.time.call_after(300, function()
-    resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+    save_all_workspaces()
     auto_save()
   end)
 end
 auto_save()
 
--- Salva ao fechar o WezTerm (ex: antes de reiniciar o Fedora)
+-- Salva todos os workspaces ao fechar o WezTerm
 wezterm.on("gui-shutdown", function()
-  resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+  save_all_workspaces()
 end)
 
 -- =====================
@@ -177,6 +187,13 @@ config.keys = {
     mods = "LEADER|SHIFT",
     action = wezterm.action.ShowLauncherArgs { flags = "WORKSPACES" },
   },
+
+  -- Workspaces: próximo / anterior
+  { key = "]", mods = "LEADER", action = wezterm.action.SwitchWorkspaceRelative(1)  },
+  { key = "[", mods = "LEADER", action = wezterm.action.SwitchWorkspaceRelative(-1) },
+
+  -- Panes: picker visual (mostra label em cada pane para pular direto)
+  { key = "q", mods = "LEADER", action = wezterm.action.PaneSelect },
 
   -- Renomear workspace atual
   {

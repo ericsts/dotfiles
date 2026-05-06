@@ -26,21 +26,18 @@
       font-family: "Hack Nerd Font Mono", "JetBrains Mono", "Fira Code", monospace;
       font-size: 13px;
       line-height: 1.5;
-      padding: 28px 24px 40px;
-      max-width: 860px;
-      margin: 0 auto;
+      padding: 24px 24px 40px;
     }
 
     header {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       padding-bottom: 16px;
       border-bottom: 2px solid var(--bg2);
     }
     header h1 { font-size: 1.8rem; color: var(--blue); letter-spacing: 2px; text-transform: uppercase; }
     header p  { color: var(--fg2); font-size: 0.82rem; margin-top: 5px; }
 
-    /* Leader badge */
     .leader-badge {
       display: inline-block;
       margin-top: 10px;
@@ -53,12 +50,18 @@
       font-weight: 700;
     }
 
-    /* Grid de cards */
+    /* ── Grid responsivo ── */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
     }
+    @media (max-width: 1200px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 860px)  { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px)  { .grid { grid-template-columns: 1fr; } }
+
+    /* card que ocupa 2 colunas */
+    .col-2 { grid-column: span 2; }
 
     .card {
       background: var(--card);
@@ -93,7 +96,7 @@
     td { padding: 5px 14px; vertical-align: middle; }
     td:first-child:not([colspan]) { width: 1%; white-space: nowrap; padding-right: 8px; }
     td[colspan] { white-space: normal; word-wrap: break-word; overflow-wrap: break-word; }
-    td:last-child  { color: var(--fg2); }
+    td:last-child { color: var(--fg2); }
 
     kbd {
       display: inline-block;
@@ -107,8 +110,8 @@
       line-height: 1.6;
       white-space: nowrap;
     }
-    kbd.leader { background: #ddeeff; color: var(--blue);   border-color: var(--blue);   font-weight: 700; }
-    kbd.action { background: #f0f0f0; color: var(--fg2);   border-color: #bbb; }
+    kbd.leader { background: #ddeeff; color: var(--blue); border-color: var(--blue); font-weight: 700; }
+    kbd.action { background: #f0f0f0; color: var(--fg2); border-color: #bbb; }
 
     .group-label td {
       padding: 6px 14px 2px;
@@ -135,13 +138,14 @@
     }
 
     @media print {
-      body { padding: 6px; font-size: 10px; max-width: 100%; }
-      .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      body { padding: 6px; font-size: 10px; }
+      .grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px; }
+      .col-2 { grid-column: span 2; }
       .card { break-inside: avoid; box-shadow: none; }
       td { padding: 3px 10px; }
       tr:hover td { background: transparent; }
       footer { display: none; }
-      header { margin-bottom: 14px; padding-bottom: 10px; }
+      header { margin-bottom: 12px; padding-bottom: 8px; }
     }
   </style>
 </head>
@@ -155,38 +159,36 @@
 
 <div class="grid">
 
-  <!-- SPLITS -->
-  <div class="card blue">
-    <div class="card-header">󰕮 Splits — Dividir Painel</div>
+  <!-- WORKSPACES -->
+  <div class="card green col-2">
+    <div class="card-header">󰓎 Workspaces — Sessões Independentes</div>
     <table>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>|</kbd></td><td>Split <b>vertical</b> (lado a lado)</td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>-</kbd></td><td>Split <b>horizontal</b> (cima/baixo)</td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>x</kbd></td><td>Fechar pane atual (pede confirmação)</td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>z</kbd></td><td>Toggle <b>zoom</b> — maximiza/restaura pane</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>]</kbd></td><td>Próximo workspace</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>[</kbd></td><td>Workspace anterior</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>W</kbd></td><td>Listar e <b>trocar de workspace</b> (picker)</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>$</kbd></td><td>Criar ou ir para workspace pelo <b>nome</b></td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>E</kbd></td><td><b>Renomear</b> o workspace atual</td></tr>
+      <tr class="group-label"><td colspan="2">O que é</td></tr>
+      <tr><td colspan="2" style="padding:4px 14px;color:#555;font-size:0.82rem">
+        Cada workspace tem suas próprias tabs e panes, completamente isolados.
+        Exemplo: workspace "laravel" com nvim + servidor + artisan e workspace "dotfiles" com outro ambiente separado.
+        Trocar de workspace não fecha nada — tudo fica rodando em background.
+      </td></tr>
     </table>
   </div>
 
-  <!-- NAVEGAÇÃO -->
-  <div class="card green">
-    <div class="card-header">󰆏 Navegação entre Panes</div>
+  <!-- SESSION PERSISTENCE -->
+  <div class="card blue col-2">
+    <div class="card-header">󰁯 Sessões — Persistência entre Reinicializações</div>
     <table>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>h</kbd></td><td>Ir para o pane da <b>esquerda</b></td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>j</kbd></td><td>Ir para o pane de <b>baixo</b></td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>k</kbd></td><td>Ir para o pane de <b>cima</b></td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>l</kbd></td><td>Ir para o pane da <b>direita</b></td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>S</kbd></td><td><b>Salvar</b> workspace atual manualmente</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>R</kbd></td><td><b>Restaurar</b> sessão salva (abre picker)</td></tr>
+      <tr class="group-label"><td colspan="2">Automático (plugin resurrect)</td></tr>
+      <tr><td colspan="2" style="padding:4px 14px;color:#555;font-size:0.82rem">
+        Salva o workspace ativo a cada <b>5 minutos</b> e ao fechar o WezTerm.
+        <b>Atenção:</b> salva apenas o workspace <i>ativo</i> no momento — use <kbd>Ctrl+a S</kbd> em cada workspace antes de reiniciar para garantir que todos sejam salvos.
+      </td></tr>
     </table>
-  </div>
-
-  <!-- REDIMENSIONAR -->
-  <div class="card orange">
-    <div class="card-header">󰙖 Redimensionar Panes</div>
-    <table>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>H</kbd></td><td>Expandir para a <b>esquerda</b> (+5)</td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>J</kbd></td><td>Expandir para <b>baixo</b> (+5)</td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>K</kbd></td><td>Expandir para <b>cima</b> (+5)</td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>L</kbd></td><td>Expandir para a <b>direita</b> (+5)</td></tr>
-    </table>
-    <div class="note">Shift + hjkl (maiúsculas). Cada pressão move 5 células.</div>
   </div>
 
   <!-- TABS -->
@@ -194,91 +196,69 @@
     <div class="card-header">󰓩 Tabs</div>
     <table>
       <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>c</kbd></td><td>Criar nova tab</td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>n</kbd></td><td>Ir para a <b>próxima</b> tab</td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>p</kbd></td><td>Ir para a tab <b>anterior</b></td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>w</kbd></td><td>Popup com <b>lista de todas as tabs</b></td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>,</kbd></td><td><b>Renomear</b> a tab atual</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>n</kbd></td><td>Próxima tab</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>p</kbd></td><td>Tab anterior</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>w</kbd></td><td>Lista de todas as tabs (picker)</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>,</kbd></td><td><b>Renomear</b> tab atual</td></tr>
     </table>
+  </div>
+
+  <!-- SPLITS -->
+  <div class="card blue">
+    <div class="card-header">󰕮 Panes — Dividir</div>
+    <table>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>|</kbd></td><td>Split <b>vertical</b> (lado a lado)</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>-</kbd></td><td>Split <b>horizontal</b> (cima/baixo)</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>x</kbd></td><td>Fechar pane atual</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>z</kbd></td><td>Toggle <b>zoom</b> do pane</td></tr>
+    </table>
+  </div>
+
+  <!-- NAVEGAÇÃO -->
+  <div class="card green">
+    <div class="card-header">󰆏 Panes — Navegação</div>
+    <table>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>h</kbd></td><td>Pane da <b>esquerda</b></td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>j</kbd></td><td>Pane de <b>baixo</b></td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>k</kbd></td><td>Pane de <b>cima</b></td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>l</kbd></td><td>Pane da <b>direita</b></td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>q</kbd></td><td>Picker — label em cada pane para pular direto</td></tr>
+    </table>
+  </div>
+
+  <!-- REDIMENSIONAR -->
+  <div class="card orange">
+    <div class="card-header">󰙖 Panes — Redimensionar</div>
+    <table>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>H</kbd></td><td>Expandir <b>esquerda</b> (+5)</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>J</kbd></td><td>Expandir <b>baixo</b> (+5)</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>K</kbd></td><td>Expandir <b>cima</b> (+5)</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>L</kbd></td><td>Expandir <b>direita</b> (+5)</td></tr>
+    </table>
+    <div class="note">Shift + hjkl (maiúsculas)</div>
   </div>
 
   <!-- COMMAND PALETTE -->
   <div class="card purple">
-    <div class="card-header">󰭎 Command Palette</div>
+    <div class="card-header">󰭎 Command Palette &amp; Quick Select</div>
     <table>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>P</kbd></td><td>Abrir <b>Command Palette</b> — busca qualquer ação do WezTerm</td></tr>
-      <tr class="group-label"><td colspan="2">Como usar</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>P</kbd></td><td><b>Command Palette</b> — busca qualquer ação</td></tr>
+      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>s</kbd></td><td><b>Quick Select</b> — copia URLs/hashes/caminhos</td></tr>
+      <tr class="group-label"><td colspan="2">Quick Select</td></tr>
       <tr><td colspan="2" style="padding:4px 14px;color:#555;font-size:0.82rem">
-        Digite parte do nome da ação (ex: "split", "tab", "font") e pressione Enter para executar. Dispensa lembrar atalhos.
+        Destaca URLs, git hashes, IPs e caminhos visíveis na tela com letras. Pressione a letra para copiar para o clipboard sem usar o mouse.
       </td></tr>
     </table>
   </div>
 
-  <!-- QUICK SELECT -->
-  <div class="card orange">
-    <div class="card-header">󰆒 Quick Select — Copiar sem Mouse</div>
-    <table>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>s</kbd></td><td>Ativar Quick Select</td></tr>
-      <tr class="group-label"><td colspan="2">Como usar</td></tr>
-      <tr><td colspan="2" style="padding:4px 14px;color:#555;font-size:0.82rem">
-        Detecta automaticamente na tela: URLs, git hashes, caminhos de arquivo, IPs, números.
-        Uma letra aparece sobre cada item — pressione a letra para copiar para o clipboard instantaneamente.
-      </td></tr>
-    </table>
-  </div>
-
-  <!-- WORKSPACES -->
+  <!-- MOUSE E MISC -->
   <div class="card green">
-    <div class="card-header">󰓎 Workspaces — Sessões Independentes</div>
-    <table>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>W</kbd></td><td>Listar e <b>trocar de workspace</b></td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>$</kbd></td><td>Criar ou ir para workspace pelo <b>nome</b></td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>E</kbd></td><td><b>Renomear</b> o workspace atual</td></tr>
-      <tr class="group-label"><td colspan="2">Como usar</td></tr>
-      <tr><td colspan="2" style="padding:4px 14px;color:#555;font-size:0.82rem">
-        Cada workspace tem suas próprias tabs e panes, completamente isolados.
-        Exemplo: workspace "laravel" com nvim + servidor + artisan,
-        workspace "dotfiles" com outro ambiente separado.
-        Trocar de workspace não fecha nada — tudo fica rodando em background.
-      </td></tr>
-    </table>
-  </div>
-
-  <!-- SESSION PERSISTENCE -->
-  <div class="card blue">
-    <div class="card-header">󰁯 Sessões — Persistência entre Reinicializações</div>
-    <table>
-      <tr class="group-label"><td colspan="2">Automático (plugin resurrect)</td></tr>
-      <tr><td colspan="2" style="padding:4px 14px;color:#555;font-size:0.82rem">
-        Salva automaticamente a cada <b>5 minutos</b> e ao fechar o WezTerm.
-        Ao reabrir, restaura o último workspace automaticamente.
-      </td></tr>
-      <tr class="group-label"><td colspan="2">Manual</td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>S</kbd></td><td><b>Salvar</b> sessão do workspace atual agora</td></tr>
-      <tr><td><kbd class="leader">Ctrl+a</kbd> <kbd>R</kbd></td><td><b>Restaurar</b> sessão salva (abre picker)</td></tr>
-    </table>
-  </div>
-
-
-  <!-- MOUSE -->
-  <div class="card green">
-    <div class="card-header">󰍽 Mouse</div>
+    <div class="card-header">󰌌 Mouse &amp; Geral</div>
     <table>
       <tr><td><kbd>Ctrl</kbd> + <kbd>Clique</kbd></td><td>Abrir link sob o cursor</td></tr>
-    </table>
-  </div>
-
-  <!-- REFERÊNCIA RÁPIDA -->
-  <div class="card blue">
-    <div class="card-header">󰌌 Referência Rápida</div>
-    <table>
-      <tr class="group-label"><td colspan="2">Dicas de uso</td></tr>
-      <tr><td><kbd class="action">h j k l</kbd></td><td>Navegação estilo <b>Vim</b></td></tr>
-      <tr><td><kbd class="action">H J K L</kbd></td><td>Redimensionar (Shift + hjkl)</td></tr>
-      <tr><td><kbd class="action">| e -</kbd></td><td>Dividir como tmux (<b>|</b> = vertical, <b>-</b> = horizontal)</td></tr>
-      <tr><td><kbd class="action">z</kbd></td><td>Zoom: foca em um pane sem fechar os outros</td></tr>
       <tr class="group-label"><td colspan="2">Configurações ativas</td></tr>
-      <tr><td><kbd class="action">Fonte</kbd></td><td>Hack Nerd Font Mono — 16px</td></tr>
-      <tr><td><kbd class="action">FPS</kbd></td><td>144 fps (animação 60 fps)</td></tr>
+      <tr><td><kbd class="action">Fonte</kbd></td><td>Hack Nerd Font Mono 16px</td></tr>
+      <tr><td><kbd class="action">FPS</kbd></td><td>144 fps · animação 60 fps</td></tr>
       <tr><td><kbd class="action">Scroll</kbd></td><td>10.000 linhas de histórico</td></tr>
       <tr><td><kbd class="action">Opacidade</kbd></td><td>80% (fundo translúcido)</td></tr>
       <tr><td><kbd class="action">Backend</kbd></td><td>WebGPU</td></tr>
