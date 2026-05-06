@@ -68,31 +68,71 @@ config.front_end = "WebGpu"
 -- Workspaces sem entrada usam o background padrão (#011423).
 -- =====================
 local workspace_themes = {
-  -- ["nome-do-workspace"] = { bg = "#cor", opacity = 0.8 },
-  ["default"]  = { bg = "#011423", opacity = 0.8 },
+  -- bg     = cor de fundo da janela
+  -- opacity = transparência da janela
+  -- accent  = cor do badge do workspace name na tab bar
+  ["default"] = { bg = "#011423", opacity = 0.8, accent = "#A277FF" },
+  ["ERIC"]    = { bg = "#00FF7F", opacity = 0.8, accent = "#00cc66" },
+  ["PMT"]     = { bg = "#1E90FF", opacity = 0.8, accent = "#1E90FF" },
 }
 
+-- Gera um hue (0-359) consistente a partir do nome do workspace
+local function name_to_hue(name)
+  local hash = 0
+  for i = 1, #name do
+    hash = (hash * 31 + string.byte(name, i)) % 360
+  end
+  return hash
+end
+
+-- Converte HSL para hex RGB
+local function hsl_to_hex(h, s, l)
+  s, l = s / 100, l / 100
+  local c = (1 - math.abs(2 * l - 1)) * s
+  local x = c * (1 - math.abs((h / 60) % 2 - 1))
+  local m = l - c / 2
+  local r, g, b = 0, 0, 0
+  if     h < 60  then r, g, b = c, x, 0
+  elseif h < 120 then r, g, b = x, c, 0
+  elseif h < 180 then r, g, b = 0, c, x
+  elseif h < 240 then r, g, b = 0, x, c
+  elseif h < 300 then r, g, b = x, 0, c
+  else                r, g, b = c, 0, x end
+  return string.format("#%02X%02X%02X",
+    math.floor((r + m) * 255 + 0.5),
+    math.floor((g + m) * 255 + 0.5),
+    math.floor((b + m) * 255 + 0.5))
+end
+
+-- Para workspaces não configurados: gera accent e bg a partir do nome
 local function get_workspace_theme(name)
-  return workspace_themes[name] or workspace_themes["default"]
+  if workspace_themes[name] then
+    return workspace_themes[name]
+  end
+  local hue    = name_to_hue(name)
+  local accent = hsl_to_hex(hue, 70, 65)  -- cor vibrante para o badge
+  local bg     = hsl_to_hex(hue, 40, 8)   -- escuro com leve toque da cor
+  return { bg = bg, opacity = 0.8, accent = accent }
 end
 
 wezterm.on("update-status", function(window, pane)
-  -- Background dinâmico por workspace
-  local theme = get_workspace_theme(window:active_workspace())
+  local workspace = window:active_workspace()
+  local theme     = get_workspace_theme(workspace)
+
+  -- Background e opacidade dinâmicos por workspace
   window:set_config_overrides({
-    colors                   = { background = theme.bg },
+    colors                    = { background = theme.bg },
     window_background_opacity = theme.opacity,
   })
 
-  -- Nome do workspace na status bar esquerda
-  local workspace = window:active_workspace()
+  -- Badge do workspace com cor de acento própria
   window:set_left_status(wezterm.format({
-    { Background = { Color = "#A277FF" } },
+    { Background = { Color = theme.accent } },
     { Foreground = { Color = "#011423" } },
     { Attribute  = { Intensity = "Bold" } },
     { Text = "  " .. workspace .. "  " },
     { Background = { Color = "#011423" } },
-    { Foreground = { Color = "#A277FF" } },
+    { Foreground = { Color = theme.accent } },
     { Text = "" },
   }))
 end)
