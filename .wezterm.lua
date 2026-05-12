@@ -12,21 +12,17 @@ local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.
 -- Salva o estado de TODOS os workspaces abertos
 local function save_all_workspaces()
   for _, workspace in ipairs(wezterm.mux.get_workspace_names()) do
-    local state = resurrect.workspace_state.get_workspace_state(workspace)
-    if state then
-      resurrect.save_state(state)
+    local ok, err = pcall(function()
+      local state = resurrect.workspace_state.get_workspace_state(workspace)
+      if state then
+        resurrect.save_state(state)
+      end
+    end)
+    if not ok then
+      wezterm.log_warn("resurrect: erro ao salvar workspace '" .. workspace .. "': " .. tostring(err))
     end
   end
 end
-
--- Salva automaticamente a cada 5 minutos
-local function auto_save()
-  wezterm.time.call_after(300, function()
-    save_all_workspaces()
-    auto_save()
-  end)
-end
-auto_save()
 
 -- Salva todos os workspaces ao fechar o WezTerm
 wezterm.on("gui-shutdown", function()
@@ -115,15 +111,21 @@ local function get_workspace_theme(name)
   return { bg = bg, opacity = 0.8, accent = accent }
 end
 
+-- Cache para evitar set_config_overrides em cada evento
+local last_workspace = nil
+
 wezterm.on("update-status", function(window, pane)
   local workspace = window:active_workspace()
   local theme     = get_workspace_theme(workspace)
 
-  -- Background e opacidade dinâmicos por workspace
-  window:set_config_overrides({
-    colors                    = { background = theme.bg },
-    window_background_opacity = theme.opacity,
-  })
+  -- Só reconfigura quando o workspace realmente muda
+  if workspace ~= last_workspace then
+    last_workspace = workspace
+    window:set_config_overrides({
+      colors                    = { background = theme.bg },
+      window_background_opacity = theme.opacity,
+    })
+  end
 
   -- Badge do workspace com cor de acento própria
   window:set_left_status(wezterm.format({

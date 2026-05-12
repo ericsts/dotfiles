@@ -59,7 +59,7 @@ return {
 
     -- === ATALHOS GLOBAIS ===
     -- Ctrl+N: toggle Neo-tree
-    vim.keymap.set("n", "<C-n>", ":Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
+    vim.keymap.set("n", "<C-t>", ":Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
 
     -- <leader>e: revela arquivo atual no Neo-tree
     vim.keymap.set("n", "<leader>e", ":Neotree filesystem reveal left<CR>", { desc = "Reveal in Neo-tree" })

@@ -166,7 +166,7 @@
 
 <header>
   <h1> Neovim Cheat Sheet</h1>
-  <p>ericsts · leader = &lt;Space&gt; · gerado em 2026-05-05</p>
+  <p>ericsts · leader = &lt;Space&gt; · gerado em 2026-05-11</p>
 </header>
 
 <div class="legend">
@@ -197,6 +197,11 @@
       <tr><td><kbd>&lt;C-w&gt;=</kbd></td><td>Equalizar tamanho das janelas</td></tr>
       <tr><td><kbd>&lt;C-w&gt;o</kbd></td><td>Fechar todas exceto a atual</td></tr>
       <tr><td><kbd>&lt;C-w&gt;q</kbd></td><td>Fechar janela atual</td></tr>
+      <tr class="group-label"><td colspan="2">Redimensionar splits</td></tr>
+      <tr><td><kbd>&lt;C-w&gt;&gt;</kbd></td><td>Aumentar largura</td></tr>
+      <tr><td><kbd>&lt;C-w&gt;&lt;</kbd></td><td>Diminuir largura</td></tr>
+      <tr><td><kbd>&lt;C-w&gt;+</kbd></td><td>Aumentar altura</td></tr>
+      <tr><td><kbd>&lt;C-w&gt;-</kbd></td><td>Diminuir altura</td></tr>
     </table>
   </div>
 
@@ -224,7 +229,7 @@
     <div class="card-header"><span class="icon">󰙅</span> Neo-tree — Explorador</div>
     <table>
       <tr class="group-label"><td colspan="2">Atalhos globais</td></tr>
-      <tr><td><kbd class="ctrl">C-n</kbd></td><td>Toggle Neo-tree</td></tr>
+      <tr><td><kbd class="ctrl">C-t</kbd></td><td>Toggle Neo-tree</td></tr>
       <tr><td><kbd class="leader">spc</kbd><kbd>e</kbd></td><td>Revelar arquivo atual na árvore</td></tr>
       <tr><td><kbd class="leader">spc</kbd><kbd>h</kbd></td><td>Toggle arquivos ocultos</td></tr>
       <tr class="group-label"><td colspan="2">Dentro do Neo-tree</td></tr>
@@ -435,12 +440,47 @@
   </div>
 
   <!-- ══════════════════════════════════════════════════ -->
+  <!-- VSCODE → NEOVIM                                    -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="card cat-search">
+    <div class="card-header"><span class="icon">󰨞</span> Equivalentes VSCode → Neovim</div>
+    <table>
+      <tr class="group-label"><td colspan="2">Edição</td></tr>
+      <tr><td><kbd>Alt+j</kbd> / <kbd>Alt+k</kbd></td><td>Mover linha abaixo / acima</td></tr>
+      <tr><td><kbd>Alt+J</kbd></td><td>Duplicar linha abaixo</td></tr>
+      <tr><td><kbd class="ctrl">C-_</kbd> (Ctrl+/)</td><td>Toggle comentário na linha/seleção</td></tr>
+      <tr><td><kbd>u</kbd> / <kbd class="ctrl">C-r</kbd></td><td>Desfazer / Refazer</td></tr>
+      <tr><td><kbd>dd</kbd></td><td>Deletar linha (Ctrl+Shift+K no VSCode)</td></tr>
+      <tr><td><kbd>yy</kbd> + <kbd>p</kbd></td><td>Copiar e colar linha abaixo</td></tr>
+      <tr class="group-label"><td colspan="2">Multi-cursor (vim-visual-multi)</td></tr>
+      <tr><td><kbd class="ctrl">C-n</kbd></td><td>Selecionar palavra e <b>próxima ocorrência</b> (como Ctrl+D)</td></tr>
+      <tr><td><kbd>Alt+n</kbd></td><td>Selecionar <b>todas</b> as ocorrências de uma vez</td></tr>
+      <tr><td><kbd class="ctrl">C-x</kbd></td><td>Pular esta ocorrência → ir para a próxima</td></tr>
+      <tr><td><kbd class="ctrl">C-p</kbd></td><td>Desfazer última seleção adicionada</td></tr>
+      <tr><td><kbd>&lt;Esc&gt;</kbd></td><td>Sair do modo multi-cursor</td></tr>
+      <tr class="group-label"><td colspan="2">Buscar ocorrências (nativo)</td></tr>
+      <tr><td><kbd>*</kbd></td><td>Buscar palavra sob o cursor (destaca todas)</td></tr>
+      <tr><td><kbd>n</kbd> / <kbd>N</kbd></td><td>Próxima / anterior ocorrência</td></tr>
+      <tr><td><kbd>cgn</kbd> + <kbd>.</kbd></td><td>Alterar ocorrência → repetir com ponto</td></tr>
+      <tr class="group-label"><td colspan="2">Navegação</td></tr>
+      <tr><td><kbd>gg</kbd> / <kbd>G</kbd></td><td>Início / fim do arquivo</td></tr>
+      <tr><td><kbd>:</kbd><kbd>42</kbd></td><td>Ir para linha 42</td></tr>
+      <tr><td><kbd>%</kbd></td><td>Pular para o par de ( [ { correspondente</td></tr>
+      <tr class="group-label"><td colspan="2">Find &amp; Replace</td></tr>
+      <tr><td><kbd>/</kbd><kbd>termo</kbd></td><td>Buscar no arquivo (Ctrl+F)</td></tr>
+      <tr><td><kbd>:s/</kbd><kbd>old</kbd><kbd>/</kbd><kbd>new</kbd><kbd>/g</kbd></td><td>Substituir na linha atual</td></tr>
+      <tr><td><kbd>:%s/</kbd><kbd>old</kbd><kbd>/</kbd><kbd>new</kbd><kbd>/gc</kbd></td><td>Substituir em todo o arquivo (com confirmação)</td></tr>
+    </table>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
   <!-- GERAL                                              -->
   <!-- ══════════════════════════════════════════════════ -->
   <div class="card cat-misc">
     <div class="card-header"><span class="icon">󰌌</span> Geral</div>
     <table>
       <tr><td><kbd class="leader">spc</kbd><kbd>ya</kbd></td><td>Copiar arquivo inteiro para clipboard</td></tr>
+      <tr><td><kbd class="ctrl">C-t</kbd></td><td>Toggle Neo-tree (explorador de arquivos)</td></tr>
       <tr><td><kbd>&lt;Space&gt;</kbd> (esperar)</td><td>Which-key: mostra atalhos disponíveis</td></tr>
     </table>
   </div>
