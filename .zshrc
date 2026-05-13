@@ -33,6 +33,9 @@ eval "$(atuin init zsh)"
 
 eval "$(zoxide init zsh)"
 
+# Desativa XOFF (Ctrl+S pausa terminal acidentalmente)
+stty -ixon
+
 source <(fzf --zsh)
 
 # Run startup tools

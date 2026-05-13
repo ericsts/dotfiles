@@ -1,5 +1,11 @@
 -- nvim/lua/ericsts/vim-options.lua
 
+-- Desabilita netrw antes de qualquer plugin carregar.
+-- Sem isso, Neo-tree conflita com o netrw ao tentar hijackear o explorador
+-- de diretórios, causando E95 "Buffer with this name already exists".
+vim.g.loaded_netrw       = 1
+vim.g.loaded_netrwPlugin = 1
+
 vim.cmd("set expandtab")     -- Converte tabs em espaços
 vim.cmd("set tabstop=2")     -- Tamanho visual de um tab = 2 espaços
 vim.cmd("set softtabstop=2") -- Número de espaços ao pressionar Tab

@@ -7,6 +7,7 @@ local config = wezterm.config_builder()
 -- Salva e restaura workspaces, tabs e panes automaticamente.
 -- Na primeira execução o plugin é baixado do GitHub (~segundos).
 -- =====================
+-- local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
 local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
 
 -- Salva o estado de TODOS os workspaces abertos
@@ -47,7 +48,8 @@ config.colors = {
 -- =====================
 -- 🔤 FONT
 -- =====================
-config.font = wezterm.font("Hack Nerd Font Mono")
+-- config.font = wezterm.font("Hack Nerd Font Mono")
+config.font = wezterm.font("FiraCode Nerd Font")
 config.font_size = 16
 config.line_height = 1.1
 
@@ -67,9 +69,10 @@ local workspace_themes = {
   -- bg     = cor de fundo da janela
   -- opacity = transparência da janela
   -- accent  = cor do badge do workspace name na tab bar
-  ["default"] = { bg = "#011423", opacity = 0.8, accent = "#A277FF" },
-  ["ERIC"]    = { bg = "#00FF7F", opacity = 0.8, accent = "#00cc66" },
-  ["PMT"]     = { bg = "#1E90FF", opacity = 0.8, accent = "#1E90FF" },
+  ["default"] = { bg = "#006666", opacity = 0.8, accent = "#AA77FF" },
+  ["LOCAL"]   = { bg = "#663366", opacity = 0.8, accent = "#00CC66" },
+  ["PMT"]     = { bg = "#1199FF", opacity = 0.8, accent = "#1199FF" },
+  ["DIGITAL"] = { bg = "#CC00FF", opacity = 0.8, accent = "#660066" },
 }
 
 -- Gera um hue (0-359) consistente a partir do nome do workspace
