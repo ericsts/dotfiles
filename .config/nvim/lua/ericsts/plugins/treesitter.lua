@@ -15,7 +15,8 @@ return {
       ensure_installed = {
         "lua", "javascript", "typescript", "php",
         "html", "css", "json", "yaml", "markdown",
-        "bash", "dockerfile", "sql"
+        "bash", "dockerfile", "sql",
+        "go", "gomod", "gosum", "gowork"
       },
 
       -- === FEATURES ===

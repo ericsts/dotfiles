@@ -19,3 +19,6 @@ open() { xdg-open "$@" >/dev/null 2>&1 & }
 alias t='tmux attach || tmux new -s Work'
 alias lt='eza --tree --level=2 --long --icons --git'
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
+
+# Agente SSH do systemd (ssh-agent.socket); a sessão gráfica já define isso via ~/.config/uwsm/env
+[[ -z $SSH_AUTH_SOCK ]] && export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
