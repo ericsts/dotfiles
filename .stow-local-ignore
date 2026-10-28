@@ -5,3 +5,5 @@
 ^/README.*
 .*\.html
 .*\.bak(\..*)?
+# kitty fora de uso no Omarchy (config guardada só no repo)
+^/\.config/kitty
