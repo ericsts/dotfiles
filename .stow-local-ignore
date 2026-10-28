@@ -3,5 +3,5 @@
 \.gitignore
 \.stow-local-ignore
 ^/README.*
-\.html$
-\.bak(\..*)?$
+.*\.html
+.*\.bak(\..*)?
