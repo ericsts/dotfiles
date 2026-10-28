@@ -27,20 +27,21 @@ for file in ~/.config/zsh/*.zsh; do
 done
 
 # Starship
-eval "$(starship init zsh)"
+##eval "$(starship init zsh)"
 
 eval "$(atuin init zsh)"
 
-eval "$(zoxide init zsh)"
-
 # Desativa XOFF (Ctrl+S pausa terminal acidentalmente)
-stty -ixon
+[[ -o interactive ]] && stty -ixon
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 source <(fzf --zsh)
 
 # Run startup tools
-fastfetch
-fortune | cowsay
+[[ -o interactive ]] && command -v fastfetch &>/dev/null && fastfetch
+[[ -o interactive ]] && command -v fortune &>/dev/null && command -v cowsay &>/dev/null && fortune | cowsay
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# zoxide precisa ser inicializado no final do arquivo
+eval "$(zoxide init zsh)"

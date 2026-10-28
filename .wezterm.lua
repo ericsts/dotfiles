@@ -7,22 +7,68 @@ local config = wezterm.config_builder()
 -- Salva e restaura workspaces, tabs e panes automaticamente.
 -- Na primeira execução o plugin é baixado do GitHub (~segundos).
 -- =====================
--- local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
+
 local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
+
+-- Monta o estado de UM workspace específico (get_workspace_state() do plugin
+-- só enxerga o workspace ativo, então filtramos as janelas manualmente).
+local function get_workspace_state_for(workspace_name)
+  local state = { workspace = workspace_name, window_states = {} }
+  for _, mux_win in ipairs(wezterm.mux.all_windows()) do
+    if mux_win:get_workspace() == workspace_name then
+      table.insert(state.window_states, resurrect.window_state.get_window_state(mux_win))
+    end
+  end
+  return state
+end
 
 -- Salva o estado de TODOS os workspaces abertos
 local function save_all_workspaces()
   for _, workspace in ipairs(wezterm.mux.get_workspace_names()) do
     local ok, err = pcall(function()
-      local state = resurrect.workspace_state.get_workspace_state(workspace)
-      if state then
-        resurrect.save_state(state)
-      end
+      resurrect.state_manager.save_state(get_workspace_state_for(workspace))
     end)
     if not ok then
       wezterm.log_warn("resurrect: erro ao salvar workspace '" .. workspace .. "': " .. tostring(err))
     end
   end
+end
+
+-- Restaura TODOS os workspaces salvos, cada um em suas próprias janelas.
+-- As janelas são criadas uma de cada vez, com um intervalo entre elas: criar
+-- várias de uma vez via wezterm.mux.spawn_window() dispara um bug conhecido
+-- do backend Wayland do WezTerm (panic "Window should exist", ver
+-- https://github.com/wezterm/wezterm/issues/7847) quando alguma ação (ex:
+-- trocar de workspace) acontece antes da GUI terminar de mapear a janela
+-- anterior. O espaçamento aqui é uma mitigação, não uma correção definitiva.
+local function restore_all_workspaces()
+  local dir = resurrect.state_manager.save_state_dir .. "workspace/"
+  local files = wezterm.glob(dir .. "*.json")
+
+  local function restore_next(i)
+    local file = files[i]
+    if not file then
+      return
+    end
+    local name = file:match("([^/]+)%.json$")
+    local ok, err = pcall(function()
+      local state = resurrect.state_manager.load_state(name, "workspace")
+      resurrect.workspace_state.restore_workspace(state, {
+        relative = true,
+        restore_text = true,
+        spawn_in_workspace = true,
+        on_pane_restore = resurrect.tab_state.default_on_pane_restore,
+      })
+    end)
+    if not ok then
+      wezterm.log_warn("resurrect: erro ao restaurar workspace '" .. name .. "': " .. tostring(err))
+    end
+    wezterm.time.call_after(0.6, function()
+      restore_next(i + 1)
+    end)
+  end
+
+  restore_next(1)
 end
 
 -- Salva todos os workspaces ao fechar o WezTerm
@@ -69,10 +115,10 @@ local workspace_themes = {
   -- bg     = cor de fundo da janela
   -- opacity = transparência da janela
   -- accent  = cor do badge do workspace name na tab bar
-  ["default"] = { bg = "#006666", opacity = 0.8, accent = "#AA77FF" },
-  ["LOCAL"]   = { bg = "#663366", opacity = 0.8, accent = "#00CC66" },
-  ["PMT"]     = { bg = "#1199FF", opacity = 0.8, accent = "#1199FF" },
-  ["DIGITAL"] = { bg = "#CC00FF", opacity = 0.8, accent = "#660066" },
+  ["default"] = { bg = "#001111", opacity = 0.95, accent = "#fde403" },
+  ["LOCAL"]   = { bg = "#002222", opacity = 0.95, accent = "#00CC66" },
+  ["PMT"]     = { bg = "#003333", opacity = 0.95, accent = "#1199FF" },
+  ["DIGITAL"] = { bg = "#111111", opacity = 0.95, accent = "#CC00FF" },
 }
 
 -- Gera um hue (0-359) consistente a partir do nome do workspace
@@ -125,8 +171,9 @@ wezterm.on("update-status", function(window, pane)
   if workspace ~= last_workspace then
     last_workspace = workspace
     window:set_config_overrides({
-      colors                    = { background = theme.bg },
-      window_background_opacity = theme.opacity,
+      colors                     = { background = theme.bg },
+      window_background_opacity  = theme.opacity,
+      window_background_gradient = { colors = { theme.bg } },
     })
   end
 
@@ -145,7 +192,8 @@ end)
 -- =====================
 -- 🪟 WINDOW
 -- =====================
-config.window_decorations = "NONE"
+-- config.window_decorations = "NONE"
+config.window_decorations = "TITLE | RESIZE"
 config.window_background_opacity = 0.8
 config.window_background_gradient = { colors = { "#011423" } }
 
@@ -271,28 +319,23 @@ config.keys = {
     },
   },
 
-  -- Sessão: salvar manualmente o workspace atual
+  -- Sessão: salvar TODOS os workspaces abertos
   {
     key = "S",
     mods = "LEADER|SHIFT",
     action = wezterm.action_callback(function(win, pane)
-      resurrect.save_state(resurrect.workspace_state.get_workspace_state())
-      wezterm.log_info("Sessão salva: " .. wezterm.mux.get_active_workspace())
+      save_all_workspaces()
+      wezterm.log_info("Todos os workspaces foram salvos")
     end),
   },
 
-  -- Sessão: restaurar workspace salvo (abre picker com sessões disponíveis)
+  -- Sessão: restaurar TODOS os workspaces salvos
   {
     key = "R",
     mods = "LEADER|SHIFT",
     action = wezterm.action_callback(function(win, pane)
-      resurrect.fuzzy_load(win, pane, function(id)
-        local state = resurrect.load_state(id)
-        resurrect.workspace_state.restore_workspace(state, {
-          window = win,
-          relative_cwd = wezterm.home_dir,
-        })
-      end)
+      restore_all_workspaces()
+      wezterm.log_info("Todos os workspaces foram restaurados")
     end),
   },
 }

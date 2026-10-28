@@ -1,7 +1,6 @@
 # zsh/plugins.zsh
 plugins=(
   eza
-  asdf
   aliases
   composer
   themes

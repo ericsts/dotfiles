@@ -2,12 +2,11 @@
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.config/bin:$PATH"
-export PATH="$HOME/.asdf/shims:$PATH"
-export PATH="$HOME/.asdf/installs/rust/1.91.0/bin:$PATH"
-export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
+# asdf e nvim em /opt eram do Fedora: no Omarchy, o mise cuida das versões (ver omarchy.zsh)
+# e o nvim vem do sistema.
 
-export JAVA_HOME=/usr/lib/jvm/java-21-openjdk
-##export JAVA_HOME=/usr/lib/jvm/java-latest-openjdk
+# JDK padrão do sistema (troque com: sudo archlinux-java set <versão>)
+export JAVA_HOME=/usr/lib/jvm/default
 export PATH=$JAVA_HOME/bin:$PATH
 
 export ANDROID_HOME=$HOME/android-sdk

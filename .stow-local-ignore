@@ -1,0 +1,7 @@
+# Arquivos do repo que não devem virar links em ~ (substitui a lista padrão do stow)
+\.git
+\.gitignore
+\.stow-local-ignore
+^/README.*
+\.html$
+\.bak(\..*)?$
