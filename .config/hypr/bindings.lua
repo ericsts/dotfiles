@@ -27,3 +27,8 @@
 -- o.bind("SUPER + SHIFT + S", nil, "omarchy-capture-screenshot")
 -- o.bind("SUPER + H", nil, "voxtype record toggle")
 -- o.bind("SUPER + PERIOD", nil, "omarchy-shell shell toggle omarchy.emojis")
+
+-- Super+F: tela cheia sem mandar o app para o modo F11 (o navegador mantém as abas).
+-- Para a tela cheia "de verdade" do app, use F11 dentro dele.
+hl.unbind("SUPER + F")
+o.bind("SUPER + F", "Full screen (keeps tabs)", "~/.config/hypr/scripts/fullscreen-com-abas.sh")
