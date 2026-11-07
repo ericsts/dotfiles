@@ -41,6 +41,9 @@ wait_and_move() {
   return 1
 }
 
+# Abre o btop na aba 3 do workspace ERIC do herdr quando a sessão for restaurada.
+~/.config/hypr/scripts/herdr-restaurar.sh >/dev/null 2>&1 &
+
 for entry in "${apps[@]}"; do
   IFS=';' read -r ws pattern cmd <<<"$entry"
   # --profile-directory=Profile 4 tem espaço: o valor vai inteiro como um argumento.
